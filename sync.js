@@ -57,6 +57,7 @@ const FILES = [
 
   // Project Bible — README + template files
   [`${PROJECTS}/README.md`,               'projects/index.md'],
+  [`${PROJECTS}/_template/index.md`,      'projects/template/index.md'],
   [`${PROJECTS}/_template/01-concept.md`, 'projects/template/01-concept.md'],
   [`${PROJECTS}/_template/02-world.md`,   'projects/template/02-world.md'],
   [`${PROJECTS}/_template/03-characters.md`, 'projects/template/03-characters.md'],

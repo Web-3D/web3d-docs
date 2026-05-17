@@ -156,6 +156,7 @@ export default defineConfig({
           text: 'Template',
           collapsed: false,
           items: [
+            { text: 'Overview', link: '/projects/template/' },
             { text: '01 — Concept', link: '/projects/template/01-concept' },
             { text: '02 — World & Map', link: '/projects/template/02-world' },
             { text: '03 — Characters', link: '/projects/template/03-characters' },
