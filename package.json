@@ -1,0 +1,16 @@
+{
+  "name": "web3d-docs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "sync": "node sync.js",
+    "sync:push": "node sync.js --push"
+  },
+  "devDependencies": {
+    "vitepress": "^1.3.0"
+  }
+}
