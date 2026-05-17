@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **22:27 17/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **22:36 17/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -32,19 +32,13 @@
 
 ### r/threejs — Hot posts
 
-1. **[Three.js r184 released ⛅️](https://www.reddit.com/r/threejs/comments/1sncplg/threejs_r184_released/)** ↑619 · u/mrdoob
-2. **[Three.js r183 released 🦞](https://www.reddit.com/r/threejs/comments/1r86et9/threejs_r183_released/)** ↑227 · u/mrdoob
-3. **[Added endless procedural grass to my three.js robot battle game.](https://www.reddit.com/r/threejs/comments/1tfcuzx/added_endless_procedural_grass_to_my_threejs/)** ↑28 · u/shanebrumback
-4. **[City Scan](https://www.reddit.com/r/threejs/comments/1tfskp4/city_scan/)** ↑2 · u/CollectionBulky1564
-5. **[Why every new websites are having AR/VR with 3D models in it?](https://www.reddit.com/r/threejs/comments/1tfk7n1/why_every_new_websites_are_having_arvr_with_3d/)** ↑3 · u/Necessary_Data_8369
+_Không lấy được dữ liệu._
+
 
 ### r/webgpu — Hot posts
 
-1. **[Gaming Browser/Launcher](https://www.reddit.com/r/webgpu/comments/1tfh98v/gaming_browserlauncher/)** ↑2 · u/MaximumContent9674
-2. **[IP Linux: I built a browser-based desktop environment with React, Vite and local-first apps](https://www.reddit.com/r/webgpu/comments/1teqc7s/ip_linux_i_built_a_browserbased_desktop/)** ↑8 · u/Time-Willingness-360
-3. **[Prototype - WIP - From Scratch(No Libraries/No AI) - TypeScript/WebGPU](https://www.reddit.com/r/webgpu/comments/1te7ygk/prototype_wip_from_scratchno_librariesno_ai/)** ↑8 · u/underwatr_cheestrain
-4. **[Does WEBGPU and C++ exist as professional role?](https://www.reddit.com/r/webgpu/comments/1tdztns/does_webgpu_and_c_exist_as_professional_role/)** ↑7 · u/Latter_Relationship5
-5. **[wgpu vs JavaScript](https://www.reddit.com/r/webgpu/comments/1tbic9b/wgpu_vs_javascript/)** ↑18 · u/risingtiger422
+_Không lấy được dữ liệu._
+
 
 ---
 
