@@ -18,14 +18,28 @@ audience: ai-agent, human
 
 ---
 
+## Agent Reading Guide
+
+> Mỗi agent chỉ đọc entry có domain khớp với mình — không cần đọc tất cả.
+
+| Bạn là agent nào | Đọc entry có domain |
+|---|---|
+| Planning agent (web3d-projects) | `agent-system`, `cross-ecosystem` |
+| THREEJS agent | `three-js`, `cross-ecosystem` |
+| Factory agent | `factory`, `cross-ecosystem` |
+| Babylon.js agent | `babylonjs`, `cross-ecosystem` |
+
+---
+
 ## Cách AI Agent dùng Knowledge Base này
 
 ```
-1. Đọc Quick Index — tìm entry có apply_when khớp với vấn đề đang gặp
-2. Mở entry đó — đọc section "APPLY WHEN" và "FOR AI AGENTS" trước
-3. Nếu status = "validated" → áp dụng ngay, không cần reinvent
-4. Nếu status = "proposed" → dùng làm starting point, verify trước khi build
-5. Nếu status = "deprecated" → đọc phần "replaced_by" trong frontmatter
+1. Xác định domain của mình — xem bảng Agent Reading Guide trên
+2. Đọc Quick Index — lọc entry có domain khớp, xem apply_when có match không
+3. Mở entry đó — đọc section "APPLY WHEN" và "FOR AI AGENTS" trước
+4. Nếu status = "validated" → áp dụng ngay, không cần reinvent
+5. Nếu status = "proposed" → dùng làm starting point, verify trước khi build
+6. Nếu status = "deprecated" → đọc phần "replaced_by" trong frontmatter
 ```
 
 **Không có entry phù hợp?** Giải quyết xong → tạo entry mới theo template `_knowledge/_template.md`.
