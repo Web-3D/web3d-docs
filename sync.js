@@ -55,6 +55,9 @@ const FILES = [
   [`${FACTORY}/SYNC.md`,     'factory/sync.md'],
   [`${FACTORY}/blender/PIPELINE.md`, 'factory/blender/pipeline.md'],
 
+  // Knowledge Base — recursive .md pickup
+  ...mdFiles(`${PROJECTS}/_knowledge`, 'knowledge'),
+
   // Project Bible — README + template files
   [`${PROJECTS}/README.md`,               'projects/index.md'],
   [`${PROJECTS}/_template/index.md`,      'projects/template/index.md'],
@@ -88,6 +91,21 @@ function readmeFiles(dir, destPrefix) {
       return [src, dest]
     })
     .filter(([src]) => existsSync(src))
+}
+
+/**
+ * Tìm tất cả .md files đệ quy trong dir, giữ nguyên cấu trúc thư mục.
+ * Dùng cho knowledge base, decisions — không chỉ README.md.
+ */
+function mdFiles(dir, destPrefix) {
+  if (!existsSync(dir)) return []
+  return readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+    const srcPath = join(dir, entry.name).replace(/\\/g, '/')
+    const destPath = `${destPrefix}/${entry.name}`
+    if (entry.isDirectory()) return mdFiles(srcPath, destPath)
+    if (entry.name.endsWith('.md')) return [[srcPath, destPath]]
+    return []
+  })
 }
 
 function ensureDir(filePath) {

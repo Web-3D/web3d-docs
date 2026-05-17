@@ -19,6 +19,7 @@ export default defineConfig({
       { text: 'Three.js', link: '/threejs/' },
       { text: 'Babylon.js', link: '/babylonjs/' },
       { text: 'Factory', link: '/factory/' },
+      { text: 'Knowledge', link: '/knowledge/' },
       { text: 'News', link: '/news/' },
       { text: 'Projects', link: '/projects/' },
     ],
@@ -135,6 +136,37 @@ export default defineConfig({
         },
       ],
     },
+
+      '/knowledge/': [
+        {
+          text: 'Knowledge Base',
+          items: [
+            { text: 'Overview', link: '/knowledge/' },
+          ],
+        },
+        {
+          text: 'Innovations',
+          collapsed: false,
+          items: [
+            { text: 'Multi-Agent Orchestration', link: '/knowledge/innovations/multi-agent-orchestration' },
+          ],
+        },
+        {
+          text: 'Decisions',
+          collapsed: true,
+          items: [],
+        },
+        {
+          text: 'Errors',
+          collapsed: true,
+          items: [],
+        },
+        {
+          text: 'Patterns',
+          collapsed: true,
+          items: [],
+        },
+      ],
 
       '/news/': [
         {
