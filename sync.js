@@ -14,11 +14,11 @@ const DRY  = process.argv.includes('--dry')
 
 // ─── Source roots ────────────────────────────────────────────────────────────
 
-const WEB3D    = 'c:/Web-3D'
-const THREEJS  = 'c:/Web-3D/THREEJS'
-const BABYLON  = 'c:/Web-3D/BABYLONJS'
-const FACTORY  = 'c:/Factory'
-const DOCS     = 'c:/Docs'
+const WEB3D    = process.env.WEB3D_PATH    || 'c:/Web-3D'
+const THREEJS  = process.env.THREEJS_PATH  || 'c:/Web-3D/THREEJS'
+const BABYLON  = process.env.BABYLON_PATH  || 'c:/Web-3D/BABYLONJS'
+const FACTORY  = process.env.FACTORY_PATH  || 'c:/Factory'
+const DOCS     = process.env.DOCS_PATH     || 'c:/Docs'
 
 // ─── Copy map: [source, destination relative to DOCS] ────────────────────────
 
