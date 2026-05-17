@@ -19,6 +19,7 @@ const THREEJS  = process.env.THREEJS_PATH  || 'c:/Web-3D/THREEJS'
 const BABYLON  = process.env.BABYLON_PATH  || 'c:/Web-3D/BABYLONJS'
 const FACTORY  = process.env.FACTORY_PATH  || 'c:/Factory'
 const DOCS     = process.env.DOCS_PATH     || 'c:/Docs'
+const PROJECTS = process.env.PROJECTS_PATH || 'c:/Projects/web3d-projects'
 
 // ─── Copy map: [source, destination relative to DOCS] ────────────────────────
 
@@ -53,6 +54,17 @@ const FILES = [
   [`${FACTORY}/CLAUDE.md`,   'factory/overview.md'],
   [`${FACTORY}/SYNC.md`,     'factory/sync.md'],
   [`${FACTORY}/blender/PIPELINE.md`, 'factory/blender/pipeline.md'],
+
+  // Project Bible — README + template files
+  [`${PROJECTS}/README.md`,               'projects/index.md'],
+  [`${PROJECTS}/_template/01-concept.md`, 'projects/template/01-concept.md'],
+  [`${PROJECTS}/_template/02-world.md`,   'projects/template/02-world.md'],
+  [`${PROJECTS}/_template/03-characters.md`, 'projects/template/03-characters.md'],
+  [`${PROJECTS}/_template/04-art-style.md`,  'projects/template/04-art-style.md'],
+  [`${PROJECTS}/_template/05-tech-stack.md`, 'projects/template/05-tech-stack.md'],
+  [`${PROJECTS}/_template/06-modules.md`,    'projects/template/06-modules.md'],
+  [`${PROJECTS}/_template/07-infrastructure.md`, 'projects/template/07-infrastructure.md'],
+  [`${PROJECTS}/_template/08-phases.md`,     'projects/template/08-phases.md'],
 ]
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

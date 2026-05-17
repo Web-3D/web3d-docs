@@ -17,7 +17,7 @@
 
 | Engine     | Phase hiện tại                    | Trạng thái              | Modules done | Ghi chú                             |
 | ---------- | --------------------------------- | ----------------------- | ------------ | ----------------------------------- |
-| `THREEJS`  | Phase D ✅ hoàn thành             | ✅ Tất cả 4 phases xong | 20 / 20      | 20 modules unit-pass. Gallery: 16 cards. Tooling + docs session 2026-05-16. |
+| `THREEJS`  | Phase D ✅ hoàn thành             | ✅ Tất cả 4 phases xong | 26 / 26      | 26 modules. +6 mới: BaseGPUEffect, BeamEffect, BillboardSprite, ShockwaveRing, BaseShaderMaterial, BaseWorld. Docs site live 2026-05-17. |
 | `BABYLONJS`| Phase A — Environment Foundation  | ⏳ Chưa bắt đầu         | 0 / 4        | Bắt đầu sau khi THREEJS Phase D xong |
 
 > Tiến trình chi tiết → [`/ROADMAP.md`](ROADMAP.md) (nguồn duy nhất cho status).
@@ -28,11 +28,18 @@
 
 ## THREEJS
 
-**20 modules unit-pass — Phase A–D ✅ hoàn thành 2026-05-15.**
+**26 modules — Phase A–D ✅ hoàn thành.**
 Gallery: `00-Threejs/src/gallery/` — 16 live canvas cards. Chưa tích hợp vào scene thực tế.
 → Module index + next steps: [`/ROADMAP.md`](ROADMAP.md)
 
 ### Log [THREEJS]
+
+#### 2026-05-17 — Claude Code (Docs site + GEMINI.md sync)
+- **Docs site live** — VitePress tại `c:\Docs\`, deploy https://docs-3d-ng.vercel.app/
+- **GitHub repo** — https://github.com/NgQuan86/web3d-docs (public, auto-redeploy qua Vercel)
+- **sync.js** — copy 37+ MD files từ mọi project, `node sync.js --push` để update
+- **GEMINI.md cập nhật** — module count 20→26, thêm Factory + Docs vào workspace layout, thêm module index table
+- **6 modules mới (untracked, chưa commit vào THREEJS):** BaseGPUEffect, BeamEffect, BillboardSprite, ShockwaveRing, BaseShaderMaterial, BaseWorld
 
 #### 2026-05-16 — Claude Code (Tooling + Refactor)
 - **shaders/ restructured** — 3 subfolders: `foundation/` (WorldNoise), `vertex/` (WindAnimation, ProceduralFracture, VATShader), `fragment/` (TriplanarMapping, InteriorMapping, RoundedCorners, DissolveShader)
