@@ -1,68 +1,81 @@
+---
+title: Multi-Agent Orchestration với Claude Code
+type: innovation
+domain: agent-system
+tags: [mcp, multi-agent, orchestration, hitl, claude-code, cross-repo]
+status: validated
+date: 2026-05-17
+apply_when: "Khi ecosystem có nhiều Claude Code session chuyên biệt cần phối hợp mà không switch terminal liên tục"
+related: []
+replaced_by: null
+---
+
 # Multi-Agent Orchestration với Claude Code
 
-> Kiến trúc dùng nhiều Claude Code agent chuyên biệt phối hợp trong một ecosystem.
-> Date: 2026-05-17 | Status: F.1 validated, F.2 proposed
+> Dùng MCP bridge + file protocol để nhiều Claude Code agent chuyên biệt phối hợp — human làm orchestrator, không phải relay.
 
 ---
 
-## Bối cảnh
+## APPLY WHEN
+
+- Có ≥ 2 Claude Code workspace với skills/CLAUDE.md khác nhau cần trao đổi thông tin
+- Human đang phải copy-paste output từ session này sang session khác
+- Agent cần biết trạng thái repo khác (module có sẵn chưa? asset đã validate chưa?) mà không switch terminal
+
+## DO NOT APPLY WHEN
+
+- Chỉ có 1 workspace — không cần orchestration
+- Task thuần coding trong 1 repo — mở THREEJS session thẳng, không qua planning layer
+- Muốn fully-automated (không human approval) — F.3 SDK orchestrator chưa stable, không nên dùng trong production workflow
+
+---
+
+## Context
 
 Web-3D Ecosystem có 4 repo với domain knowledge khác nhau:
-- `web3d-projects/` — planning, project bible
-- `THREEJS/` — shader, GPU, module library (20 modules, skills: dispose-pattern, shader-tsl...)
-- `Factory/` — Blender pipeline, asset production
-- `BABYLONJS/` — (tương lai)
 
-Mỗi Claude Code session trong 1 workspace = 1 agent với skills riêng, không cross-repo được.
-**Vấn đề:** Human phải switch terminal, re-brief mỗi lần chuyển agent → tốn thời gian.
+| Workspace | Domain | Skills |
+|---|---|---|
+| `web3d-projects/` | Planning, project bible | Studio skills |
+| `THREEJS/` | Shader, GPU, modules | dispose-pattern, shader-tsl, triplanar-mapping... |
+| `Factory/` | Blender, asset pipeline | gltf-pipeline, bake-policy... |
+| `BABYLONJS/` | (tương lai) | — |
 
----
+Skills không cross-repo — THREEJS skills chỉ load trong THREEJS workspace. Human phải switch terminal để relay thông tin giữa các agent.
 
-## Vấn đề / Observation
+## Problem / Observation
 
-**Skills không cross-repo:** TSL shader skills, dispose-pattern skills chỉ có trong THREEJS workspace.
-Planning agent không thể check "FireSystem có unit-pass chưa?" mà không switch session.
+**Friction thật** (không phải human làm message bus — mà là chi phí của nó):
 
-**Human làm message bus:** Thông tin từ THREEJS → Planning phải đi qua con người — copy-paste,
-re-explain context, dễ mất thông tin.
+1. Agent mới mở → không biết context → hỏi lại từ đầu (~5 phút re-brief mỗi session)
+2. Không có shared status → không ai biết agent nào đang ở đâu
+3. Planning agent không query được "FireSystem unit-pass chưa?" mà không switch terminal
+4. HANDOFF.md format không chuẩn → agent nhận thiếu info, hỏi lại
 
-**Re-brief overhead:** Mỗi lần mở agent mới phải giải thích lại context — project đang làm gì,
-đang ở phase nào, blocker là gì.
+## Root Cause / Analysis
 
----
+**Human-in-the-loop là feature, không phải bug.** Human làm orchestrator = quality gate thực sự.
 
-## Phân tích
+Root cause thật: thiếu 2 thứ:
+1. **Shared context file** → agent mới không biết gì
+2. **Cross-repo query mechanism** → phải switch terminal để hỏi repo khác
 
-**Root cause thật:** Không phải human làm message bus — mà là *friction* của việc đó:
-1. Agent mới không biết context → hỏi lại
-2. Không có shared status → không ai biết ai đang làm gì
-3. Handoff format không chuẩn → agent nhận thiếu info
+## Solution
 
-**Human-in-the-loop là feature, không phải bug:**
-Human làm orchestrator = quality gate thực sự, có judgment, catch agent đi sai hướng.
-Target đúng: human chỉ làm **approve + route** — không phải relay info.
+### Tầng F.1 — File Protocol (validated)
 
----
+`STATUS.md` làm bảng điều khiển trung tâm. Session opener chuẩn:
 
-## Giải pháp — Phase F (3 tầng)
-
-### F.1 — File Protocol (validated)
-
-`STATUS.md` làm bảng điều khiển trung tâm:
-- Active project, phase hiện tại
-- Trạng thái mỗi agent
-- Blocker đang chờ
-
-Session opener chuẩn (1 câu, không cần re-brief):
 ```
 Đọc _studio/CLAUDE.md + STATUS.md + [project]/HANDOFF.md rồi báo cáo trạng thái.
 ```
 
-### F.2 — MCP Bridge (proposed)
+### Tầng F.2 — MCP Bridge (proposed)
 
-**Key unlock:** Claude Code là MCP CLIENT — có thể connect đến MCP server từ repo khác.
+Claude Code là MCP CLIENT — connect được MCP server từ repo khác.
 
-Setup `.mcp.json` trong web3d-projects:
+`.mcp.json` trong web3d-projects:
+
 ```json
 {
   "mcpServers": {
@@ -80,58 +93,44 @@ Setup `.mcp.json` trong web3d-projects:
 }
 ```
 
-THREEJS MCP tools cần build:
-- `list_modules(category?)` → modules + status
-- `get_module_info(name)` → meta.json + exports
-- `validate_module(name)` → PASS/FAIL
-- `get_phase_status()` → phase hiện tại
+THREEJS MCP tools: `list_modules`, `get_module_info`, `validate_module`, `get_phase_status`
+Factory MCP tools: `list_assets`, `queue_asset_order`, `get_order_status`
 
-Factory MCP tools:
-- `list_assets(category?)` → validated assets
-- `queue_asset_order(spec)` → ghi vào order queue
-
-**Kết quả:** Planning agent hỏi "FireSystem sẵn chưa?" → MCP trả lời ngay, không switch terminal.
-
-### F.3 — SDK Orchestrator (future)
-
-Claude Agent SDK cho phép spawn subagent với custom system prompt + restricted tools:
+### Tầng F.3 — SDK Orchestrator (future)
 
 ```typescript
 import { query } from "@anthropic-ai/claude-agent-sdk"
-
-// Mỗi agent có domain prompt riêng, tool set riêng
-const agents = {
-  "threejs": { prompt: THREEJS_CLAUDE_MD, tools: ["Read","Write","Edit","Bash"] },
-  "factory": { prompt: FACTORY_CLAUDE_MD, tools: ["Read","Bash"] }
-}
+// Spawn subagent với custom system prompt + restricted tools
+// Constraint: subagent không spawn được subagent, không inherit parent history
 ```
 
-**Constraints cần biết:**
-- Sub-agent KHÔNG spawn được sub-agent (no nesting)
-- Sub-agent KHÔNG inherit parent conversation history
-- Chỉ giao tiếp qua prompt text + file
-- Working directory inheritance chưa documented rõ — test trước khi build on this
+## Outcome
 
----
-
-## Kết quả
-
-| Phase | Status | Impact |
+| Phase | Status | Impact đo được |
 |---|---|---|
-| F.1 — STATUS.md + session opener | ✅ Done | Giảm re-brief overhead |
-| F.2 — MCP bridge | ⏳ Proposed | Giảm switch-terminal friction |
-| F.3 — SDK orchestrator | 🔮 Future | Fully automated routing |
+| F.1 — STATUS.md + session opener | ✅ Validated 2026-05-17 | Re-brief giảm từ ~5 phút → 1 câu |
+| F.2 — MCP bridge | ⏳ Proposed | Dự kiến: loại bỏ terminal switch cho status queries |
+| F.3 — SDK orchestrator | 🔮 Future | — |
 
 ---
 
-## Áp dụng cho AI agent
+## FOR AI AGENTS
 
-> Khi bắt đầu session trong bất kỳ workspace nào của Web-3D Ecosystem:
-> đọc STATUS.md trong web3d-projects/, không hỏi lại context đã có trong đó.
->
-> Khi cần biết module/asset status từ repo khác:
-> nếu F.2 đã build → dùng MCP tools.
-> nếu chưa → switch terminal và báo user rằng đây là friction cần giải quyết.
->
-> Khi propose multi-agent solution:
-> giữ Human làm orchestrator — không auto-route mà không có human approval.
+> Đọc section này trước khi bắt đầu bất kỳ session nào trong Web-3D Ecosystem.
+
+**Preconditions:**
+- `STATUS.md` tồn tại tại `c:\Projects\web3d-projects\STATUS.md`
+- `_studio/CLAUDE.md` tồn tại tại `c:\Projects\web3d-projects\_studio\CLAUDE.md`
+
+**Steps:**
+1. Đọc `STATUS.md` → biết active project, phase hiện tại, blockers
+2. Đọc `_studio/CLAUDE.md` → biết role của agent này trong studio
+3. Nếu có HANDOFF.md trong project folder → đọc trước khi làm bất cứ gì
+4. Cập nhật `STATUS.md` khi xong khâu hoặc chuyển agent
+
+**Watch out for:**
+- Không tự switch sang repo khác để check status — nếu F.2 chưa build, báo user đây là friction cần giải quyết
+- Không bỏ qua STATUS.md dù session "nhanh" — context mất đi là chi phí thật
+- Không tự route task sang agent khác mà không có human approval
+
+**Verify success by:** User không phải re-explain context khi bắt đầu session mới

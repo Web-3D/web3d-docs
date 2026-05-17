@@ -1,81 +1,54 @@
+---
+title: Knowledge Base — Web-3D Ecosystem
+description: Tủ hồ sơ kỹ thuật. Mỗi entry là 1 case đã xử lý — vấn đề, phân tích, giải pháp đã validate.
+audience: ai-agent, human
+---
+
 # Knowledge Base — Web-3D Ecosystem
 
-> Tủ hồ sơ kỹ thuật. Mỗi entry = 1 case đã xử lý — vấn đề, phân tích, giải pháp.
-> Mục đích kép: tài liệu cho con người **và** nguồn context cho AI agent.
+> Đọc file này trước. Quick Index bên dưới giúp AI tìm entry liên quan mà không cần mở từng file.
 
 ---
 
-## Cách dùng
+## Quick Index (AI-scannable)
 
-**Cho con người:** Tìm theo category → đọc case liên quan trước khi bắt đầu task tương tự.
+| Entry | Type | Domain | apply_when | Status |
+|---|---|---|---|---|
+| [multi-agent-orchestration](innovations/multi-agent-orchestration) | innovation | agent-system | Khi nhiều Claude Code session cần phối hợp trong 1 ecosystem | validated |
 
-**Cho AI agent:** Đọc section liên quan trước khi propose solution.
-Nếu problem bác gặp **đã có trong đây** → solution đã được validate, dùng ngay, đừng reinvent.
+---
+
+## Cách AI Agent dùng Knowledge Base này
+
+```
+1. Đọc Quick Index — tìm entry có apply_when khớp với vấn đề đang gặp
+2. Mở entry đó — đọc section "APPLY WHEN" và "FOR AI AGENTS" trước
+3. Nếu status = "validated" → áp dụng ngay, không cần reinvent
+4. Nếu status = "proposed" → dùng làm starting point, verify trước khi build
+5. Nếu status = "deprecated" → đọc phần "replaced_by" trong frontmatter
+```
+
+**Không có entry phù hợp?** Giải quyết xong → tạo entry mới theo template `_knowledge/_template.md`.
+
+---
+
+## Thêm Entry Mới
+
+```
+1. Copy _knowledge/_template.md → _knowledge/[type]/[kebab-title].md
+2. Điền đầy đủ frontmatter — apply_when phải là 1 câu rõ ràng
+3. Thêm row vào Quick Index bên trên
+4. node c:\Docs\sync.js --push
+5. Thêm vào VitePress sidebar: c:\Docs\.vitepress\config.ts
+```
 
 ---
 
 ## Categories
 
-| Category | Nội dung | Khi nào đọc |
-|---|---|---|
-| [Decisions](decisions/) | Tại sao chọn X thay vì Y — trade-off đã cân nhắc | Trước khi thay đổi stack hoặc architecture |
-| [Errors](errors/) | Bug gặp phải → root cause → fix đã verify | Khi gặp lỗi tương tự |
-| [Innovations](innovations/) | Insight mới, approach chưa phổ biến, discovery | Khi tìm hướng giải quyết |
-| [Patterns](patterns/) | Proven code/workflow patterns đã dùng nhiều lần | Trước khi viết abstraction mới |
-
----
-
-## Entries
-
-### Innovations
-- [Multi-Agent Orchestration](innovations/multi-agent-orchestration) — Kiến trúc multi-agent với MCP bridge, HITL pattern, Phase F roadmap
-
-### Decisions
-_(chưa có entry)_
-
-### Errors
-_(chưa có entry)_
-
-### Patterns
-_(chưa có entry)_
-
----
-
-## Quy trình thêm entry mới
-
-```
-1. Xác định category (decision / error / innovation / pattern)
-2. Tạo file: _knowledge/[category]/[kebab-case-title].md
-3. Dùng template bên dưới
-4. Cập nhật mục "Entries" trong file này
-5. node c:\Docs\sync.js --push
-```
-
-### Template
-
-```markdown
-# [Tiêu đề]
-
-> Một câu tóm tắt vấn đề hoặc insight.
-> Date: YYYY-MM-DD | Status: validated / proposed / deprecated
-
----
-
-## Bối cảnh
-[Tại sao issue này phát sinh — context project, giai đoạn nào]
-
-## Vấn đề / Observation
-[Mô tả rõ vấn đề hoặc insight]
-
-## Phân tích
-[Root cause hoặc reasoning]
-
-## Giải pháp / Approach
-[Cái đã làm hoặc đề xuất làm]
-
-## Kết quả
-[Outcome — validated? partial? pending?]
-
-## Áp dụng cho AI agent
-[Câu lệnh ngắn cho AI biết khi nào dùng knowledge này]
-```
+| Folder | Chứa gì |
+|---|---|
+| `decisions/` | Tại sao chọn X không chọn Y — trade-off đã cân nhắc |
+| `errors/` | Bug/problem → root cause → fix đã verify |
+| `innovations/` | Insight mới, approach chưa phổ biến, discovery |
+| `patterns/` | Proven code/workflow pattern đã dùng ≥ 3 lần |
