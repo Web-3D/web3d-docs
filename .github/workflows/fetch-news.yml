@@ -2,7 +2,7 @@ name: Fetch Web-3D News
 
 on:
   schedule:
-    - cron: '0 1 * * *'   # 08:00 SA UTC+7 mỗi ngày
+    - cron: '0 */2 * * *'  # mỗi 2 tiếng
   workflow_dispatch:        # trigger thủ công để test
 
 jobs:
