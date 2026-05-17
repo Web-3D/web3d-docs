@@ -19,6 +19,7 @@ export default defineConfig({
       { text: 'Three.js', link: '/threejs/' },
       { text: 'Babylon.js', link: '/babylonjs/' },
       { text: 'Factory', link: '/factory/' },
+      { text: 'News', link: '/news/' },
     ],
 
     sidebar: {
@@ -133,6 +134,15 @@ export default defineConfig({
         },
       ],
     },
+
+      '/news/': [
+        {
+          text: 'News',
+          items: [
+            { text: 'Latest Updates', link: '/news/' },
+          ],
+        },
+      ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/NgQuan86' },
