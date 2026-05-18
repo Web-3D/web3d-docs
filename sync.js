@@ -14,9 +14,9 @@ const DRY  = process.argv.includes('--dry')
 
 // ─── Source roots ────────────────────────────────────────────────────────────
 
-const WEB3D    = process.env.WEB3D_PATH    || 'c:/Web-3D'
-const THREEJS  = process.env.THREEJS_PATH  || 'c:/Web-3D/THREEJS'
-const BABYLON  = process.env.BABYLON_PATH  || 'c:/Web-3D/BABYLONJS'
+const WEB3D    = process.env.WEB3D_PATH    || 'c:/Engine'
+const THREEJS  = process.env.THREEJS_PATH  || 'c:/Engine/THREEJS'
+const BABYLON  = process.env.BABYLON_PATH  || 'c:/Engine/BABYLONJS'
 const FACTORY  = process.env.FACTORY_PATH  || 'c:/Factory'
 const DOCS     = process.env.DOCS_PATH     || 'c:/Docs'
 const PROJECTS = process.env.PROJECTS_PATH || 'c:/Projects/studio-3D'

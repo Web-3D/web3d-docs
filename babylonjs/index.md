@@ -6,19 +6,19 @@
 
 ---
 
-## Phase A — Environment Foundation _(chờ THREEJS Phase A xong)_
+## Phase A — Environment Foundation _(✅ điều kiện đạt — sẵn sàng build)_
 
 Mục tiêu: rebuild Phase A của THREEJS bằng Babylon.js API để so sánh trực tiếp.
 
-> Lưu ý Babylon.js: shader dùng Node Material Editor (visual) thay vì TSL.
-> RuntimeGuard có thể dùng Inspector built-in thay vì viết class riêng.
+> `GlobalUniforms` bị loại — pattern đó là TSL-specific (Three.js `uniform()` node), không có equivalent trong Babylon.js.
+> Shader trong Babylon.js nhận time qua `ShaderMaterial.setFloat("uTime", t)` mỗi frame — không cần shared uniform node.
 
-| #   | Module            | Category | Status       | Three.js counterpart |
-| --- | ----------------- | -------- | ------------ | -------------------- |
-| 1   | `GlobalUniforms`  | utils    | ⏳ chưa code | `GlobalUniforms`     |
-| 2   | `TriplanarMapping`| shaders  | ⏳ chưa code | `TriplanarMapping`   |
-| 3   | `WorldNoise`      | shaders  | ⏳ chưa code | `WorldNoise`         |
-| 4   | `RoundedCorners`  | shaders  | ⏳ chưa code | `RoundedCorners`     |
+| #   | Module            | Category | Status       | Three.js counterpart | Ghi chú adapt |
+| --- | ----------------- | -------- | ------------ | -------------------- | ------------- |
+| 1   | `RuntimeGuard`    | utils    | ⏳ chưa code | `RuntimeGuard`       | Dùng `scene.drawCalls`, `scene.totalVerticesPerfCounter` thay `renderer.info` |
+| 2   | `TriplanarMapping`| shaders  | ⏳ chưa code | `TriplanarMapping`   | NME: `TextureBlock` + world position/normal input |
+| 3   | `WorldNoise`      | shaders  | ⏳ chưa code | `WorldNoise`         | NME noise block hoặc GLSL implementation |
+| 4   | `RoundedCorners`  | shaders  | ⏳ chưa code | `RoundedCorners`     | UV SDF thuần toán học — port thẳng vào NME/GLSL |
 
 ---
 
@@ -127,5 +127,6 @@ Babylon.js `PBRMaterial` có `subSurface.isScatteringEnabled` built-in — khôn
 
 | Ngày       | Thay đổi                                                  |
 | ---------- | --------------------------------------------------------- |
+| 2026-05-18 | Phase A: bỏ `GlobalUniforms` (TSL-specific), thêm `RuntimeGuard` |
 | 2026-05-17 | Thêm Phase E — High Fidelity Rendering (feasibility study) |
 | 2026-05-12 | Tạo file — mirror structure từ `THREEJS/ROADMAP.md`       |

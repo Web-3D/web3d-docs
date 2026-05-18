@@ -1,4 +1,4 @@
-# FACTORY-COMPATIBILITY.md — Web-3D ↔ Factory Integration
+﻿# FACTORY-COMPATIBILITY.md — Engine ↔ Factory Integration
 
 > Scope: ecosystem-level — áp dụng cho cả Three.js và Babylon.js.
 
