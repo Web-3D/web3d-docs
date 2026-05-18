@@ -15,6 +15,7 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
+      { text: 'Status', link: '/status' },
       { text: 'Ecosystem', link: '/ecosystem/' },
       { text: 'Three.js', link: '/threejs/' },
       { text: 'Babylon.js', link: '/babylonjs/' },
