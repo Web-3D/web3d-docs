@@ -30,20 +30,47 @@ baked/          ← output: .glb thô — tất cả tools ghi vào đây
 
 ```
 Factory/
-├── source/           ← input assets (tất cả tools dùng chung)
-├── baked/            ← .glb thô (output của bất kỳ tool nào)
-├── scripts/          ← shared: deploy.js (Phase D)
-├── blender/          ← tool plugin — ANCHOR hiện tại
-│   ├── scripts/      ← Python Blender-specific
-│   ├── templates/    ← .blend templates chuẩn
+├── source/              ← input assets (tất cả tools dùng chung) — flat
+├── baked/               ← .glb thô (output của bất kỳ tool nào) — flat
+├── scripts/             ← shared: deploy.js (Phase D)
+├── blender/             ← tool plugin — ANCHOR hiện tại
+│   ├── scripts/         ← Python Blender-specific
+│   ├── templates/       ← .blend templates chuẩn
 │   └── PIPELINE.md
-├── houdini/          ← future plugin
-├── unreal/           ← future plugin
-├── unity/            ← future plugin
-└── deferred/
+├── houdini/             ← future plugin
+├── unreal/              ← future plugin
+├── unity/               ← future plugin
+├── deferred/
+├── mcp-server.js        ← MCP stdio server — Planning agent interface
+├── asset-orders.json    ← orders queue (Planning agent ghi, Factory agent đọc)
+└── package.json         ← ESM config cho mcp-server.js
 ```
 
 **Nguyên tắc plugin:** Thêm/xóa 1 tool = thêm/xóa folder của nó. `scripts/deploy.js` không biết tool nào tạo ra .glb.
+
+---
+
+## Warehouse — MCP Interface
+
+`mcp-server.js` là cầu nối giữa Planning agent (`studio-3D`) và Factory agent (`Factory/`).
+
+**4 tools:**
+
+| Tool | Mục đích |
+|---|---|
+| `list_assets` | Scan `baked/` + `production/` → liệt kê theo stage |
+| `get_asset_info` | Chi tiết 1 asset (path, size, stage, category) |
+| `queue_asset_order` | Planning agent tạo order → ghi vào `asset-orders.json` |
+| `get_order_status` | Đọc queue — 1 order hoặc toàn bộ |
+
+**Flow:**
+```
+Planning agent  →  queue_asset_order  →  asset-orders.json
+Factory agent   ←  đọc queue          ←  asset-orders.json
+Planning agent  →  list_assets / get_asset_info  →  biết trạng thái thực tế
+```
+
+Server load qua `c:\Projects\studio-3D\.mcp.json`.
 
 ---
 
@@ -69,14 +96,41 @@ Factory/
 
 Trước khi dùng .glb trong Web-3D, chạy validate từ thư mục `Web-3D/THREEJS/`:
 ```
-node validate.js ../../assets/[cat]/[name]
+node validate.js ../assets/[cat]/[name]
 ```
 
 ---
 
 ## Phase hiện tại
 
-**Phase A ⏳ — Blender MCP Foundation.** Chi tiết: [`ROADMAP.md`](ROADMAP.md)
+**Phase 0 ✅ — Warehouse Foundation** (MCP server + orders queue xong)
+**Phase A ✅ — Blender MCP Foundation** (addon + export_glb.py + test_cube.glb PASS — 2026-05-18)
+**Phase B ✅ — First Asset End-to-End** (prop-donut-chocolate PASS — 2026-05-18)
+**Phase C ⏳ — Deploy Automation.** Chi tiết: [`ROADMAP.md`](ROADMAP.md)
+
+---
+
+## Skills System
+
+5 skills tự động load mỗi session. Index: [`.claude/SKILLS-ROADMAP.md`](.claude/SKILLS-ROADMAP.md)
+
+| Skill | Trigger |
+|---|---|
+| `blender-scene-check` | Trước mọi Blender MCP operation |
+| `blender-export` | "xuất glb", "export từ blender" |
+| `deploy-pipeline` | "deploy", "đưa vào production" |
+| `asset-intake` | "asset mới", "tạo order" |
+| `sync-state` | "phase xong", "ghi log", "cập nhật" |
+
+---
+
+## Session opener chuẩn
+
+Câu đầu tiên khi mở Factory session:
+
+```
+Đọc CLAUDE.md + SYNC.md + c:\Projects\studio-3D\STATUS.md + c:\Web-3D\SYNC.md rồi báo cáo trạng thái.
+```
 
 ---
 
@@ -84,6 +138,10 @@ node validate.js ../../assets/[cat]/[name]
 
 | File | Mục đích |
 |---|---|
-| `SYNC.md` | Log quyết định + trạng thái — **đọc đầu session** |
-| `ROADMAP.md` | Kế hoạch phases A-D + feeders tương lai |
+| `SYNC.md` | Log quyết định + trạng thái Factory — **đọc đầu session** |
+| `ROADMAP.md` | Kế hoạch phases 0-D + feeders tương lai |
 | `deferred/README.md` | Tính năng đã nghiên cứu nhưng hoãn |
+| `mcp-server.js` | Warehouse MCP server — Planning agent gọi vào đây |
+| `asset-orders.json` | Orders queue — trạng thái từng yêu cầu asset |
+| `c:\Projects\studio-3D\STATUS.md` | Command center — active project, phase, blockers cross-repo |
+| `c:\Web-3D\SYNC.md` | Ecosystem log — quyết định lớn ảnh hưởng cả Web-3D + Factory |

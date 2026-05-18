@@ -137,69 +137,69 @@ export default defineConfig({
       ],
     },
 
-      '/knowledge/': [
-        {
-          text: 'Knowledge Base',
-          items: [
-            { text: 'Overview', link: '/knowledge/' },
-          ],
-        },
-        {
-          text: 'Innovations',
-          collapsed: false,
-          items: [
-            { text: 'Multi-Agent Orchestration', link: '/knowledge/innovations/multi-agent-orchestration' },
-          ],
-        },
-        {
-          text: 'Decisions',
-          collapsed: true,
-          items: [],
-        },
-        {
-          text: 'Errors',
-          collapsed: true,
-          items: [],
-        },
-        {
-          text: 'Patterns',
-          collapsed: true,
-          items: [],
-        },
-      ],
+    '/knowledge/': [
+      {
+        text: 'Knowledge Base',
+        items: [
+          { text: 'Overview', link: '/knowledge/' },
+        ],
+      },
+      {
+        text: 'Innovations',
+        collapsed: false,
+        items: [
+          { text: 'Multi-Agent Orchestration', link: '/knowledge/innovations/multi-agent-orchestration' },
+        ],
+      },
+      {
+        text: 'Decisions',
+        collapsed: true,
+        items: [],
+      },
+      {
+        text: 'Errors',
+        collapsed: true,
+        items: [],
+      },
+      {
+        text: 'Patterns',
+        collapsed: true,
+        items: [],
+      },
+    ],
 
-      '/news/': [
-        {
-          text: 'News',
-          items: [
-            { text: 'Latest Updates', link: '/news/' },
-          ],
-        },
-      ],
+    '/news/': [
+      {
+        text: 'News',
+        items: [
+          { text: 'Latest Updates', link: '/news/' },
+        ],
+      },
+    ],
 
-      '/projects/': [
-        {
-          text: 'Project Bible',
-          items: [
-            { text: 'Overview', link: '/projects/' },
-          ],
-        },
-        {
-          text: 'Template',
-          collapsed: false,
-          items: [
-            { text: 'Overview', link: '/projects/template/' },
-            { text: '01 — Concept', link: '/projects/template/01-concept' },
-            { text: '02 — World & Map', link: '/projects/template/02-world' },
-            { text: '03 — Characters', link: '/projects/template/03-characters' },
-            { text: '04 — Art Style', link: '/projects/template/04-art-style' },
-            { text: '05 — Tech Stack', link: '/projects/template/05-tech-stack' },
-            { text: '06 — Module Mapping', link: '/projects/template/06-modules' },
-            { text: '07 — Infrastructure', link: '/projects/template/07-infrastructure' },
-            { text: '08 — Build Phases', link: '/projects/template/08-phases' },
-          ],
-        },
-      ],
+    '/projects/': [
+      {
+        text: 'Project Bible',
+        items: [
+          { text: 'Overview', link: '/projects/' },
+        ],
+      },
+      {
+        text: 'Template',
+        collapsed: false,
+        items: [
+          { text: 'Overview', link: '/projects/template/' },
+          { text: '01 — Concept', link: '/projects/template/01-concept' },
+          { text: '02 — World & Map', link: '/projects/template/02-world' },
+          { text: '03 — Characters', link: '/projects/template/03-characters' },
+          { text: '04 — Art Style', link: '/projects/template/04-art-style' },
+          { text: '05 — Tech Stack', link: '/projects/template/05-tech-stack' },
+          { text: '06 — Module Mapping', link: '/projects/template/06-modules' },
+          { text: '07 — Infrastructure', link: '/projects/template/07-infrastructure' },
+          { text: '08 — Build Phases', link: '/projects/template/08-phases' },
+        ],
+      },
+    ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/NgQuan86' },

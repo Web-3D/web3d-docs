@@ -6,7 +6,21 @@
 
 ---
 
-## Phase A — Blender MCP Foundation _(⏳ chưa bắt đầu)_
+## Phase 0 — Warehouse Foundation _(✅ 2026-05-18)_
+
+**Mục tiêu:** Planning agent có thể query Factory state và queue asset orders mà không cần switch terminal.
+
+**Exit criteria:** MCP server respond đúng `initialize` + `tools/list` — đã pass.
+
+| # | Task | Type | Status | Ghi chú |
+|---|------|------|--------|---------|
+| 1 | `mcp-server.js` — 4 tools (list_assets, get_asset_info, queue_asset_order, get_order_status) | script | ✅ | JSON-RPC 2.0 over stdio |
+| 2 | `asset-orders.json` — orders queue | config | ✅ | Planning agent ghi, Factory agent đọc |
+| 3 | `package.json` — ESM config, Node ≥18 | config | ✅ | Smoke test passed |
+
+---
+
+## Phase A — Blender MCP Foundation _(✅ 2026-05-18)_
 
 **Mục tiêu:** Kết nối Claude Code ↔ Blender qua MCP. Claude Code có thể trigger Blender operations trực tiếp — không cần thao tác tay.
 
@@ -14,37 +28,53 @@
 
 | # | Task | Type | Status | Ghi chú |
 |---|------|------|--------|---------|
-| 1 | Cài Blender MCP addon (blender-mcp) | config | ⏳ | Server chạy trong Blender, Claude Code connect qua stdio |
-| 2 | Thêm blender-mcp vào `.claude/mcp.json` | config | ⏳ | Depends on #1 |
-| 3 | Smoke test: Claude Code list objects trong scene | test | ⏳ | Verify kết nối 2 chiều |
-| 4 | Python script: `export_glb.py` — apply modifiers + export .glb | script | ⏳ | Chạy qua Blender MCP |
-| 5 | Test export 1 asset .blend đơn giản | test | ⏳ | Output: `baked/test.glb` |
+| 1 | Cài Blender MCP addon (blender-mcp) | config | ✅ | addon.py copy vào AppData, enable trong Preferences |
+| 2 | Thêm blender-mcp vào `.mcp.json` | config | ✅ | `C:\Factory\.mcp.json` — uvx full path |
+| 3 | Smoke test: Claude Code list objects trong scene | test | ✅ | get_scene_info → Cube, Light, Camera |
+| 4 | Python script: `export_glb.py` — apply modifiers + export .glb | script | ✅ | `blender/scripts/export_glb.py` |
+| 5 | Test export 1 asset .blend đơn giản | test | ✅ | `baked/test_cube.glb` 1.9KB — PASS |
 
 ---
 
-## Phase B — First Asset End-to-End _(chờ Phase A)_
+## Phase B — First Asset End-to-End _(✅ 2026-05-18)_
 
-**Mục tiêu:** Chạy toàn bộ pipeline với 1 asset thực tế. Validate đầu ra đạt standard Web-3D.
+**Mục tiêu:** Chạy toàn bộ pipeline với 1 asset thực tế bằng tay. Hiểu từng bước trước khi tự động hóa.
 
 **Exit criteria:** 1 asset từ `source/` → `Web-3D/assets/[cat]/production/` → `node validate.js` PASS.
 
 | # | Task | Type | Status | Ghi chú |
 |---|------|------|--------|---------|
-| 1 | Chọn 1 asset đơn giản (prop hoặc building) làm test case | prep | ⏳ | Nên chọn mesh đơn giản, có UV sẵn |
-| 2 | Bake theo checklist trong `blender/PIPELINE.md` | manual | ⏳ | Lần đầu làm tay để hiểu pipeline |
-| 3 | Export .glb từ Blender | script | ⏳ | Dùng `export_glb.py` từ Phase A |
-| 4 | Chạy gltf-transform optimize + draco | script | ⏳ | `npx gltf-transform optimize input.glb output.glb --compress draco` |
-| 5 | Copy vào `Web-3D/assets/[cat]/[name]/production/` | deploy | ⏳ | Theo cấu trúc assets/ |
-| 6 | Validate: `node validate.js ../../assets/[cat]/[name]` | validate | ⏳ | Chạy từ `Web-3D/THREEJS/` |
-| 7 | Document kết quả — ghi vào `SYNC.md` | doc | ⏳ | Ghi nhận issues nếu có |
+| 1 | Chọn 1 asset đơn giản (prop hoặc building) làm test case | prep | ✅ | prop_donut_chocolate — torus 2 objects |
+| 2 | Bake theo checklist trong `blender/PIPELINE.md` | manual | ✅ | Model + UV qua MCP, saved source/prop_donut_chocolate.blend |
+| 3 | Export .glb từ Blender qua `export_glb.py` | script | ✅ | baked/prop_donut_chocolate.glb 238.6 KB |
+| 4 | gltf-transform optimize + draco (tay) | manual | ✅ | 238.6 KB → 14.1 KB (94% giảm) |
+| 5 | Copy vào `Web-3D/assets/[cat]/production/` | manual | ✅ | assets/props/prop-donut-chocolate/production/ |
+| 6 | Validate: `node validate.js ../assets/[cat]/[name]` | validate | ✅ | PASS — fix bug registryPath trong validate.js |
+| 7 | Document kết quả — ghi vào `SYNC.md` | doc | ✅ | Xem SYNC.md entry 2026-05-18 |
 
 ---
 
-## Phase C — Asset Categories _(chờ Phase B)_
+## Phase C — Deploy Automation _(chờ Phase B)_
 
-**Mục tiêu:** Xây dựng template + pattern riêng cho từng category. Mỗi category có 1 validated asset.
+**Mục tiêu:** Tự động hóa phần post-Blender. Thay 3 bước tay bằng 1 lệnh.
 
-**Exit criteria:** 4 categories (prop, building, character, environment) — mỗi cái 1 asset PASS validate.
+**Scope:** Automation bắt đầu từ `baked/*.glb` — không phải từ Blender.
+
+**Exit criteria:** `npm run deploy [file.glb] [category/name]` → gltf-transform + copy + validate chạy tự động, fail thì rollback.
+
+| # | Task | Type | Status | Ghi chú |
+|---|------|------|--------|---------|
+| 1 | `scripts/deploy.js` — nhận `baked/*.glb` → gltf-transform → copy vào `Web-3D/assets/` | script | ⏳ | Node.js, 2 args: file + category/name |
+| 2 | Rollback nếu validate fail — xóa file vừa copy | script | ⏳ | Không để broken asset trong production |
+| 3 | `npm run deploy` shortcut trong `package.json` | config | ⏳ | |
+
+---
+
+## Phase D — Asset Scale _(chờ Phase C + project thực tế)_
+
+**Mục tiêu:** Khi có dự án cụ thể (Doraemon District hoặc tương tự), xây template và pattern cho từng category. Scale từ 1 asset lên nhiều loại.
+
+**Exit criteria:** 4 categories — mỗi cái 1 asset PASS validate + template .blend chuẩn.
 
 | # | Task | Type | Status | Ghi chú |
 |---|------|------|--------|---------|
@@ -52,27 +82,8 @@
 | 2 | `.blend` template cho `buildings/` | template | ⏳ | Scale lớn hơn, exterior UV mapping |
 | 3 | `.blend` template cho `characters/` | template | ⏳ | Rig-ready, texture atlas 1024×1024 |
 | 4 | `.blend` template cho `environments/` | template | ⏳ | Terrain scale, tiled UV |
-| 5 | Test 1 prop qua pipeline | test | ⏳ | Validate PASS |
-| 6 | Test 1 building qua pipeline | test | ⏳ | Validate PASS |
-| 7 | Test 1 character qua pipeline | test | ⏳ | Validate PASS |
-| 8 | Test 1 environment qua pipeline | test | ⏳ | Validate PASS |
-| 9 | Python script: `batch_export.py` — xử lý nhiều asset 1 lần | script | ⏳ | Đọc folder `source/`, export tất cả |
-
----
-
-## Phase D — Post-Blender Automation _(chờ Phase C)_
-
-**Mục tiêu:** Sau khi Blender xong việc (export .glb thô), tự động hoá phần còn lại — không cần chạy tay 3 lệnh.
-
-**Scope rõ:** Automation bắt đầu từ file .glb trong `baked/` — không phải từ Blender hay feeders.
-
-**Exit criteria:** 1 lệnh `npm run deploy [file.glb] [category/name]` → gltf-transform + copy + validate chạy tự động.
-
-| # | Task | Type | Status | Ghi chú |
-|---|------|------|--------|---------|
-| 1 | Script: `deploy.js` — nhận `baked/*.glb` → gltf-transform → copy vào `Web-3D/assets/` | script | ⏳ | Node.js, 2 args: file path + category/name |
-| 2 | Gọi `node validate.js` sau copy — fail thì xóa file vừa copy | script | ⏳ | Không để broken asset trong production |
-| 3 | `npm run deploy` shortcut trong `package.json` | config | ⏳ | UX: thay cho 3 bước tay |
+| 5 | Test 1 asset mỗi category qua pipeline | test | ⏳ | Validate PASS |
+| 6 | `scripts/batch_export.py` — xử lý nhiều asset 1 lần | script | ⏳ | Đọc folder `source/`, export tất cả |
 
 ---
 
@@ -82,9 +93,9 @@ Tất cả deferred có research notes tại `deferred/README.md`.
 
 | Phase | Tool | Mô tả | Khi nào |
 |-------|------|--------|---------|
-| E | Houdini MCP | .hip → .abc → Blender nhận → .glb | Sau Phase D |
-| F | Unreal MCP | .uasset → .fbx → Blender nhận → .glb | Sau Phase D |
-| G | Unity MCP | .prefab → .fbx → Blender nhận → .glb | Sau Phase D |
+| E | Houdini MCP | .hip → .abc → Blender nhận → .glb | Khi có simulation asset |
+| F | Unreal MCP | .uasset → .fbx → Blender nhận → .glb | Khi có game project |
+| G | Unity MCP | .prefab → .fbx → Blender nhận → .glb | Khi có Unity project |
 
 ---
 
@@ -92,4 +103,5 @@ Tất cả deferred có research notes tại `deferred/README.md`.
 
 | Ngày | Thay đổi |
 |------|---------|
+| 2026-05-18 | Hệ thống lại phases — đảo C/D (automation trước, scale sau). Thêm Phase 0 ✅ done |
 | 2026-05-17 | Tạo file — Factory skeleton + Phases A-D lên kế hoạch |

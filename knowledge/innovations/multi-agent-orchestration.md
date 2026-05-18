@@ -109,8 +109,34 @@ import { query } from "@anthropic-ai/claude-agent-sdk"
 | Phase | Status | Impact đo được |
 |---|---|---|
 | F.1 — STATUS.md + session opener | ✅ Validated 2026-05-17 | Re-brief giảm từ ~5 phút → 1 câu |
-| F.2 — MCP bridge | ⏳ Proposed | Dự kiến: loại bỏ terminal switch cho status queries |
+| F.2 — MCP bridge (THREEJS + Factory) | ✅ Built 2026-05-17 | Planning agent query cả 2 repo không switch terminal |
 | F.3 — SDK orchestrator | 🔮 Future | — |
+
+---
+
+## Known Limitations (2026-05-17)
+
+> Ghi lại để không re-invent khi revisit. Những giới hạn này chưa đau — match đúng workflow 1 người sequential hiện tại.
+
+### 1. MCP 1 chiều — Planning query được THREEJS/Factory, ngược lại không
+
+THREEJS/Factory agent khi xong việc phải tự ghi vào STATUS.md thủ công.
+Planning agent không biết có update trừ khi tự đọc lại.
+**Chưa đau vì:** workflow sequential, không có 2 agent chạy song song.
+**Sẽ đau khi:** F.3 spawn concurrent sub-agents.
+
+### 2. STATUS.md không có locking
+
+2 agent ghi cùng lúc → conflict.
+**Chưa xảy ra vì:** human là relay, thực tế là sequential.
+**Sẽ vỡ khi:** F.3 SDK Orchestrator spawn 2+ sub-agent đồng thời.
+
+### 3. Factory MCP thiếu `update_order_status`
+
+Order tạo được (queue_asset_order) nhưng không update status được.
+Factory agent phải edit asset-orders.json tay.
+**Fix:** thêm tool — đã ghi vào `c:\Factory\deferred\README.md`.
+**Revisit khi:** Factory agent thực sự xử lý queue.
 
 ---
 
@@ -119,8 +145,8 @@ import { query } from "@anthropic-ai/claude-agent-sdk"
 > Đọc section này trước khi bắt đầu bất kỳ session nào trong Web-3D Ecosystem.
 
 **Preconditions:**
-- `STATUS.md` tồn tại tại `c:\Projects\web3d-projects\STATUS.md`
-- `_studio/CLAUDE.md` tồn tại tại `c:\Projects\web3d-projects\_studio\CLAUDE.md`
+- `STATUS.md` tồn tại tại `c:\Projects\studio-3D\STATUS.md`
+- `_studio/CLAUDE.md` tồn tại tại `c:\Projects\studio-3D\_studio\CLAUDE.md`
 
 **Steps:**
 1. Đọc `STATUS.md` → biết active project, phase hiện tại, blockers
