@@ -19,7 +19,7 @@ const THREEJS  = process.env.THREEJS_PATH  || 'c:/Engine/THREEJS'
 const BABYLON  = process.env.BABYLON_PATH  || 'c:/Engine/BABYLONJS'
 const FACTORY  = process.env.FACTORY_PATH  || 'c:/Factory'
 const DOCS     = process.env.DOCS_PATH     || 'c:/Docs'
-const PROJECTS = process.env.PROJECTS_PATH || 'c:/Projects/studio-3D'
+const PROJECTS = process.env.PROJECTS_PATH || 'c:/Editions/studio-3D'
 
 // ─── Copy map: [source, destination relative to DOCS] ────────────────────────
 
