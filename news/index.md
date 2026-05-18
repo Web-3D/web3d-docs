@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **18:09 18/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **23:28 18/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.8.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.8.0) | 18/05/2026 | - Tree-shaking - the pure barrel - by [RaananW](https://github.com/RaananW) ([#18441](https://github |
 | [9.6.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.6.2) | 08/05/2026 | - Clean up observers when parsing Node Materials - [_Bug Fix_] by [abogartz](https://github.com/abog |
 | [9.6.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.6.1) | 08/05/2026 | - Clean up observers when parsing Node Materials - [_Bug Fix_] by [abogartz](https://github.com/abog |
-| [9.6.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.6.0) | 07/05/2026 | - Fix Flow Graph Editor serialization and snippet loading - by [RaananW](https://github.com/RaananW) |
 
-**npm latest:** `babylonjs@9.7.0` — 14/05/2026
+**npm latest:** `babylonjs@9.8.0` — 18/05/2026
 
 ---
 
