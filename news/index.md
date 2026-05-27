@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **21:32 27/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **00:58 28/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.9.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.9.2) | 28/05/2026 | - fix(xr): correct hand/wrist twist orientation on XR body tracking entry - by [RaananW](https://git |
 | [9.9.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.9.1) | 22/05/2026 | - Fix wrapped texture restore after context loss + Native MSAA-RTT support - by [bghgary](https://gi |
 | [9.9.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.9.0) | 21/05/2026 | - Fix adaptToDeviceRatio option state - [_Bug Fix_] by [Popov72](https://github.com/Popov72) ([#1849 |
-| [9.8.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.8.0) | 18/05/2026 | - Tree-shaking - the pure barrel - by [RaananW](https://github.com/RaananW) ([#18441](https://github |
 
-**npm latest:** `babylonjs@9.9.1` — 22/05/2026
+**npm latest:** `babylonjs@9.9.2` — 28/05/2026
 
 ---
 
