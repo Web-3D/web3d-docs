@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **07:14 29/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **12:15 29/05/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.10.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.10.1) | 29/05/2026 | - Make smartAssetManager tree-shakeable - by [georginahalpern](https://github.com/georginahalpern) ( |
 | [9.10.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.10.0) | 28/05/2026 | - PBR: Fix refraction intensity applied to irradiance - [_Bug Fix_] by [Popov72](https://github.com/ |
 | [9.9.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.9.2) | 28/05/2026 | - fix(xr): correct hand/wrist twist orientation on XR body tracking entry - by [RaananW](https://git |
-| [9.9.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.9.1) | 22/05/2026 | - Fix wrapped texture restore after context loss + Native MSAA-RTT support - by [bghgary](https://gi |
 
-**npm latest:** `babylonjs@9.10.0` — 28/05/2026
+**npm latest:** `babylonjs@9.10.1` — 29/05/2026
 
 ---
 
