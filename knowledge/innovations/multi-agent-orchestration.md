@@ -145,8 +145,8 @@ Factory agent phải edit asset-orders.json tay.
 > Đọc section này trước khi bắt đầu bất kỳ session nào trong Web-3D Ecosystem.
 
 **Preconditions:**
-- `STATUS.md` tồn tại tại `c:\Projects\studio-3D\STATUS.md`
-- `_studio/CLAUDE.md` tồn tại tại `c:\Projects\studio-3D\_studio\CLAUDE.md`
+- `STATUS.md` tồn tại tại `c:\Editions\studio-3D\STATUS.md`
+- `_studio/CLAUDE.md` tồn tại tại `c:\Editions\studio-3D\_studio\CLAUDE.md`
 
 **Steps:**
 1. Đọc `STATUS.md` → biết active project, phase hiện tại, blockers

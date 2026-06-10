@@ -10,8 +10,9 @@ THREEJS/                         ← Engine workspace (git: Private-threejs)
 ├── validate.js                  ← quality gate: kiểm tra module + asset
 ├── check-imports.js             ← kiểm tra import path trong src/
 ├── update-index.js              ← cập nhật Living Index tự động
-├── decisions/                   ← ADR — lý do đằng sau quyết định kiến trúc
+├── decisions/                   ← ADR — lý do đằng sau quyết định kiến trúc (thay đổi cấu trúc lớn)
 ├── deferred/                    ← tính năng đã nghiên cứu, chưa build
+├── known-issues/                ← catalog lỗi thường gặp + cách sửa (KI-NNN, meta tag)
 │
 ├── 00-Threejs/                  ← [repo: Threejs-template] KHUÔN MẪU dự án — clone riêng khi tạo project mới
 │   ├── src/                     ← source code (world/, shaders/, utils/, templates/)
@@ -22,7 +23,9 @@ THREEJS/                         ← Engine workspace (git: Private-threejs)
     ├── shaders/                 ← shader modules (TSL/GLSL)
     ├── utils/                   ← utility classes
     ├── components/              ← Three.js components
-    └── hooks/                   ← reusable hooks
+    ├── effects/                 ← VFX (GPUParticleSystem, SparkSystem, FireSystem, TrailSystem)
+    ├── hooks/                   ← reusable hooks
+    └── ui/                      ← widget DOM thuần (companion UI cho 3D tool) — vd Tabs
 ```
 
 **Shared (ecosystem level — không nằm trong thư mục này):**
@@ -30,11 +33,11 @@ THREEJS/                         ← Engine workspace (git: Private-threejs)
 - Assets: `../assets/` — 3D asset library (git: threejs-assets)
 - Sync log: `../SYNC.md`
 
-**Workflow 2 AI:**
-| AI              | Vai trò                                                             |
-| --------------- | ------------------------------------------------------------------- |
-| **Claude Code** | Build module trong `threejs-modules/`, validate, tích hợp `00-Threejs/` |
-| **Gemini**      | Tìm/copy module từ `threejs-modules/` → project, viết `SUMMARY.md`  |
+**Workflow (Claude solo từ 2026-05-29):**
+| Giai đoạn | Việc                                                                                          |
+| --------- | --------------------------------------------------------------------------------------------- |
+| Build     | Build module trong `threejs-modules/`, validate (unit-pass)                                   |
+| Import    | Tìm/copy module → `00-Threejs/src/imported/`, tích hợp vào scene, update `.module-lock.json`   |
 
 ---
 
@@ -48,7 +51,7 @@ THREEJS/                         ← Engine workspace (git: Private-threejs)
 | Script | Vai trò | Khi chạy |
 | --- | --- | --- |
 | `validate.js` | Quality gate: kiểm tra structure module, meta.json fields, export pattern; cập nhật REGISTRY.json; bỏ qua nếu file không đổi (hash cache) | Sau mỗi thêm/sửa module hoặc asset — tự động qua hook |
-| `check-imports.js` | Quét `src/` phát hiện import từ `raw/` hoặc `optimized/` — path bị cấm trong production | Sau khi Gemini copy module vào `00-Threejs/src/` |
+| `check-imports.js` | Quét `src/` phát hiện import từ `raw/` hoặc `optimized/` — path bị cấm trong production | Sau khi copy module vào `00-Threejs/src/imported/` |
 | `update-index.js` | Tái tạo hoàn toàn bảng Living Index (Scripts / Skills / Modules / Assets) trong CLAUDE.md | Tự động mỗi SessionStart + sau validate PASS |
 | `scan-versions.js` | So sánh `three-version-verified` trong mọi meta.json với Three.js đang cài; exit 1 nếu có module stale | Sau mỗi `npm install three@x.x.x` |
 | `find-unused.js` | 3 checks: stale import path trong `src/`, module có meta.json nhưng chưa ai import, file nằm ngoài chuẩn trong module folder | Định kỳ hoặc khi nghi ngờ orphan |
@@ -63,6 +66,7 @@ THREEJS/                         ← Engine workspace (git: Private-threejs)
 | `README.md` | Workspace entry point: sơ đồ, 3 thành phần cốt lõi, quick start | Lần đầu tiếp cận workspace |
 | `ROADMAP.md` | Phase A–D plan, milestone log, next targets | Khi lên kế hoạch sprint hoặc bắt đầu phase mới |
 | `WEEKLY-CHECK.md` | Checklist API drift: npm outdated, grep TSL node names, verify renderer.info | Đầu tuần — quan trọng sau Three.js release |
+| `known-issues/README.md` | Catalog lỗi thường gặp + cách sửa (`KI-NNN`, meta tag category/severity/status). Khác `decisions/` (cấu trúc lớn) | Khi gặp triệu chứng lạ / trước khi sửa geometry-state-shader |
 
 ### Root config
 

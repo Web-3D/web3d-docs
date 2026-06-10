@@ -2,15 +2,21 @@
 
 > Tầng này quản lý: DCC tools pipeline — chuyển đổi asset từ source tools sang .glb production-ready.
 > KHÔNG can thiệp: runtime shading, effects, web engine rules.
-> ← Ecosystem context: `../Web-3D/CLAUDE.md`
+> ← Ecosystem context: `../Engine/CLAUDE.md`
 
 ---
 
 ## Vai trò
 
-Factory = xưởng sản xuất asset. Output duy nhất: `.glb` compressed → `../Web-3D/assets/[cat]/production/`
+Factory = xưởng sản xuất asset. Output duy nhất: `.glb` compressed → `../Engine/assets/[cat]/production/`
 
 **Anchor tool: Blender** — mọi định dạng đều chạy qua Blender trước khi thành .glb.
+
+**Dual-path ecosystem (2026-05-20):** Forge sinh 2 output từ cùng props.json:
+- `fromSDF.ts` → GLSL SDF shader → Engine trực tiếp (prop tĩnh stylized, organic shape)
+- `toGlb.ts` → `.glb` phôi → **Factory gia công** → Engine (physics collider, LOD, character rig)
+
+Factory chuyên biệt hóa: character, physics mesh, Houdini VFX, asset cần UV/normal bake thật.
 
 ---
 
@@ -21,7 +27,7 @@ source/         ← input: .blend, .hip (Houdini), .fbx (Unreal/Unity) — tất
       ↓ [tool làm tay: bake trong Blender/Houdini/...]
 baked/          ← output: .glb thô — tất cả tools ghi vào đây
       ↓ scripts/deploy.js  [automation bắt đầu từ đây]
-../Web-3D/assets/[cat]/production/   ← delivery destination
+../Engine/assets/[cat]/production/   ← delivery destination
 ```
 
 ---
@@ -40,6 +46,7 @@ Factory/
 ├── houdini/             ← future plugin
 ├── unreal/              ← future plugin
 ├── unity/               ← future plugin
+├── scans/               ← photogrammetry input: ảnh render từ scanner rig → Meshroom/RealityCapture
 ├── deferred/
 ├── mcp-server.js        ← MCP stdio server — Planning agent interface
 ├── asset-orders.json    ← orders queue (Planning agent ghi, Factory agent đọc)
@@ -70,7 +77,7 @@ Factory agent   ←  đọc queue          ←  asset-orders.json
 Planning agent  →  list_assets / get_asset_info  →  biết trạng thái thực tế
 ```
 
-Server load qua `c:\Projects\studio-3D\.mcp.json`.
+Server load qua `c:\Editions\studio-3D\.mcp.json`.
 
 ---
 
@@ -94,7 +101,7 @@ Server load qua `c:\Projects\studio-3D\.mcp.json`.
 
 ## Quality gate
 
-Trước khi dùng .glb trong Web-3D, chạy validate từ thư mục `Web-3D/THREEJS/`:
+Trước khi dùng .glb trong Engine, chạy validate từ thư mục `Engine/THREEJS/`:
 ```
 node validate.js ../assets/[cat]/[name]
 ```
@@ -106,7 +113,9 @@ node validate.js ../assets/[cat]/[name]
 **Phase 0 ✅ — Warehouse Foundation** (MCP server + orders queue xong)
 **Phase A ✅ — Blender MCP Foundation** (addon + export_glb.py + test_cube.glb PASS — 2026-05-18)
 **Phase B ✅ — First Asset End-to-End** (prop-donut-chocolate PASS — 2026-05-18)
-**Phase C ⏳ — Deploy Automation.** Chi tiết: [`ROADMAP.md`](ROADMAP.md)
+**Phase C ✅ — Deploy Automation** (`scripts/deploy.js` PASS — 2026-05-18)
+**Phase D ✅ — Asset Scale** (4 categories, 4/4 validate PASS — 2026-05-19)
+**Phase E ⏳ — Houdini Connector.** Chi tiết: [ROADMAP.md](ROADMAP.md)
 
 ---
 
@@ -129,7 +138,7 @@ node validate.js ../assets/[cat]/[name]
 Câu đầu tiên khi mở Factory session:
 
 ```
-Đọc CLAUDE.md + SYNC.md + c:\Projects\studio-3D\STATUS.md + c:\Web-3D\SYNC.md rồi báo cáo trạng thái.
+Đọc CLAUDE.md + SYNC.md + c:\Editions\studio-3D\STATUS.md + c:\Engine\SYNC.md rồi báo cáo trạng thái.
 ```
 
 ---
@@ -143,5 +152,5 @@ Câu đầu tiên khi mở Factory session:
 | `deferred/README.md` | Tính năng đã nghiên cứu nhưng hoãn |
 | `mcp-server.js` | Warehouse MCP server — Planning agent gọi vào đây |
 | `asset-orders.json` | Orders queue — trạng thái từng yêu cầu asset |
-| `c:\Projects\studio-3D\STATUS.md` | Command center — active project, phase, blockers cross-repo |
-| `c:\Web-3D\SYNC.md` | Ecosystem log — quyết định lớn ảnh hưởng cả Web-3D + Factory |
+| `c:\Editions\studio-3D\STATUS.md` | Command center — active project, phase, blockers cross-repo |
+| `c:\Engine\SYNC.md` | Ecosystem log — quyết định lớn ảnh hưởng cả Engine + Factory |

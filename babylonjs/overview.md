@@ -180,11 +180,26 @@ Inspector cung cấp: Scene Explorer (cây node), Inspector panel (properties, m
 ### Modules (babylon-modules/)
 
 <!-- INDEX:modules -->
-_Chưa có module nào._
+| Module | Category | Status |
+|---|---|---|
+| `InteriorMapping` | shaders | ✅ |
+| `ProceduralFracture` | shaders | ✅ |
+| `RoundedCorners` | shaders | ✅ |
+| `TriplanarMapping` | shaders | ✅ |
+| `VATShader` | shaders | ✅ |
+| `WindAnimation` | shaders | ✅ |
+| `WorldNoise` | shaders | ✅ |
+| `CharacterPool` | utils | ✅ |
+| `DayNightCycle` | utils | ✅ |
+| `LODSystem` | utils | ✅ |
+| `RuntimeGuard` | utils | ✅ |
+| `LODBillboard` | components | ✅ |
+| `PostProcessing` | components | ✅ |
+| `SparkSystem` | effects | ✅ |
 <!-- /INDEX:modules -->
 
 ### Assets (assets/)
 
 <!-- INDEX:assets -->
-_assets/REGISTRY.json chưa có_
+_Xem [assets/REGISTRY.json](../assets/REGISTRY.json)_
 <!-- /INDEX:assets -->

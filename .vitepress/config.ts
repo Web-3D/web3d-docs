@@ -153,6 +153,13 @@ export default defineConfig({
         ],
       },
       {
+        text: 'Reference',
+        collapsed: false,
+        items: [
+          { text: 'Bản đồ kỹ thuật Houdini', link: '/knowledge/reference/houdini-techniques' },
+        ],
+      },
+      {
         text: 'Decisions',
         collapsed: true,
         items: [],

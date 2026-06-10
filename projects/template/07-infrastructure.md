@@ -59,7 +59,8 @@ Web-3D/assets/
 
 | AI | Vai trò trong project này |
 |---|---|
-| **Gemini** | Blender operations, Factory pipeline, git management |
-| **Claude Code** | Module integration, shader customization, scene assembly |
+| **Claude Code** | Toàn bộ: module integration, shader, scene assembly, Factory liaison (qua MCP), git, Blender pipeline |
 
-**Handoff protocol:** Gemini viết `SUMMARY.md` khi xong asset → Claude đọc và tích hợp.
+> Gemini rời hệ sinh thái 2026-05-29 (Antigravity bỏ hỗ trợ IDE) — Claude đảm nhận solo. NgQuan duyệt + quyết định push.
+
+**Handoff protocol:** Planning session viết `HANDOFF.md` → THREEJS session đọc và build.

@@ -13,6 +13,9 @@
 | Orders queue (`asset-orders.json`) | ✅ Sẵn sàng nhận orders |
 | Blender MCP setup | ✅ Phase A hoàn thành 2026-05-18 — 5/5 tasks done |
 | First asset qua pipeline | ✅ prop-donut-chocolate — validate PASS 2026-05-18 |
+| Deploy automation (`scripts/deploy.js`) | ✅ Phase C hoàn thành 2026-05-18 |
+| Asset Scale — 4 category templates + batch export | ✅ Phase D hoàn thành 2026-05-19 |
+| rig/ character lane (humanoid-B + build_skeleton + export flag) | 🔧 Tooling sẵn 2026-06-02 — chưa runtime-test (cần Blender) |
 | Houdini connector | ⏳ Deferred |
 | Unreal connector | ⏳ Deferred |
 | Unity connector | ⏳ Deferred |
@@ -20,6 +23,63 @@
 ---
 
 ## Log
+
+### 2026-06-02 — Lane character/rig: dựng tooling + chốt boundary với engine
+
+- **Verify hướng mới engine (grep toàn `THREEJS/`, trừ node_modules):**
+  - `building/` + `archplan/` = **100% procedural** (parts BoxGeometry + token số `tokens.ts` + config JSON). **0 file `.glb`.** archplan = GUI tác giả config. → Factory **không có cửa** vào mảng building. Không dựng (YAGNI).
+  - Engine chỉ load `.glb` ở **`AnimationSystem`** (character: `gltf.scene`+`gltf.animations`) và `ResourceLoader`. → Cửa thật của Factory = **character/rig**.
+  - `ARCHITECTURE.md` STAGE 2 = "Blender MCP bake+rig" **trùng charter Factory** → chồng lấn cần theo dõi (ai sở hữu bake stage). User chọn build lane character trước.
+- **Gap đã fix:** `export_glb.py` thêm param `with_animations` (mặc định False = prop tĩnh giữ nguyên; True = bật `export_animations` cho character rig). Trước đó hardcode False → không xuất nổi character.
+- **`rig/lib/build_skeleton.py`:** đọc `skeletons/<spec>.json` → sinh armature Blender (T-pose, scale `height_m`, mirror `.R`), idempotent. `py_compile` PASS.
+- **`rig/CONTRACT.md`:** hợp đồng character `.glb` → AnimationSystem (cấu trúc scene+clips, tên clip canonical `Idle/Walk/Run/Jump`, budget NPC<10k/Hero<30k tris, transform mét+Yup+origin chân).
+- **Doc sync:** `blender/PIPELINE.md` (+lane character), `rig/README.md` (+bảng lane + link CONTRACT).
+- **Kết quả:** Tooling lane sẵn sàng. **Blocker: runtime-test cần Blender mở + BlenderMCP Start Server** (`get_scene_info` báo not connected). Bước thủ công còn lại: skin mesh + đặt tên Action per character.
+
+### 2026-05-20 — Quyết định kiến trúc: Dual-path rendering (SDF + Polygon)
+
+- **Quyết định:** Forge duy trì 2 output path từ cùng 1 `props.json`:
+  - `fromSDF.ts` → GLSL SDF shader → Engine (visual, organic shape, stylized)
+  - `toGlb.ts` → `.glb` polygon → Factory gia công → Engine (physics, LOD, character)
+- **Lý do:** SDF giải quyết organic shape (Tulip chair, character body) mà polygon primitive không làm được. Factory vẫn cần cho: character rig, physics collider, Houdini VFX, third-party engine.
+- **SDF library:** `Forge/sdf/` — primitives.glsl + operations.glsl + domain.glsl (Inigo Quilez math)
+- **Factory vai trò mới:** chuyên biệt hóa — organic asset + physics, không còn làm prop tĩnh stylized
+- **Áp dụng từ:** session này trở đi
+
+### 2026-05-20 — Forge workflow pivot: catalog-first ingestion
+
+- **Quyết định:** Bỏ CC0 model download + Blender decompose làm primary path. Thay bằng số liệu thực từ catalog sản phẩm (IKEA, nội thất).
+- **Lý do:** Số liệu catalog = chính xác hơn, semantic label sẵn, không cần Blender ingestion.
+- **Tools mới:** `pipeline/ingest-catalog.ts` + `pipeline/catalog-template.json`
+- **Schema update:** thêm license `"catalog-facts"` vào `data/prop-schema.json`
+- **Test:** Saarinen Tulip Armless Chair (Knoll) — đọc từ dimensions.com screenshot → 4 parts → validate PASS
+- **Bug fix:** `generator/toGlb.ts` line 432 — `setTranslation([pos.x, pos.y, pos.z])` → `[pos.x, pos.z, -pos.y]` (Forge Z-up → GLTF Y-up coordinate conversion)
+- **Kết quả:** Pipeline catalog → Forge → Blender phôi hoạt động đúng
+
+### 2026-05-19 — Phase D PASS — Asset Scale hoàn thành
+
+- **Templates:** 4 .blend template tạo qua Blender MCP — props 89KB / buildings 88.7KB / characters 109.4KB / environments 88.5KB
+- **Scripts:** `blender/scripts/create_templates.py` + `blender/scripts/batch_export.py` (skip_existing, temp_override fix)
+- **Test pipeline:** 4 category × deploy → validate — 4/4 PASS
+  - `props/prop-donut-chocolate` ✅ (Phase B, giữ nguyên)
+  - `buildings/test-building-placeholder` ✅ 1.15 KB production
+  - `characters/test-character-placeholder` ✅ 4.48 KB production
+  - `environments/test-environment-placeholder` ✅ 1.11 KB production
+- **Fix phát hiện:** meta.json cho characters cần `rig`+`animations`, environments cần `format` — đã update _template tương ứng
+- **Fix kỹ thuật:** `bpy.ops.export_scene.gltf()` sau `open_mainfile` cần `temp_override(window, active_object, scene, view_layer)` — đã patch vào batch_export.py
+- **Kết quả:** Phase D 6/6 tasks ✅. Factory pipeline hoàn chỉnh cho 4 categories.
+
+---
+
+### 2026-05-18 — Phase C PASS — Deploy Automation hoàn thành
+
+- **Script:** `scripts/deploy.js` — 1 lệnh thay 3 bước tay: optimize → copy → validate → rollback
+- **API:** `node scripts/deploy.js <baked-name> <cat/kebab-name>` / `npm run deploy`
+- **Test:** `deploy prop_donut_chocolate props/prop-donut-chocolate` → PASS (8/8 checks, 14.1 KB)
+- **Rollback:** `rmSync outputGlb` khi validate fail — không để broken asset trong production
+- **Fail-fast:** kiểm tra input .glb + meta.json trước khi optimize
+- **Rename fixes:** Web-3D → Engine (8 files), Projects → Editions (5 files) — toàn bộ active docs sync
+- **Kết quả:** Phase C ✅. Phase D — Asset Scale chờ project thực tế.
 
 ### 2026-05-18 — Phase B PASS — prop-donut-chocolate end-to-end thành công
 

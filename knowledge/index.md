@@ -15,6 +15,7 @@ audience: ai-agent, human
 | Entry | Type | Domain | apply_when | Status |
 |---|---|---|---|---|
 | [multi-agent-orchestration](innovations/multi-agent-orchestration) | innovation | agent-system | Khi nhiều Claude Code session cần phối hợp trong 1 ecosystem | validated |
+| [houdini-techniques](reference/houdini-techniques) | reference | cross-ecosystem | Khi cần chọn kỹ thuật geometry/texture/terrain mà chưa biết Houdini có gì — tra theo NHU CẦU trước khi viết code mới | living (ảnh chụp 2026-06-10; tiến độ port = Factory catalog) |
 
 ---
 
@@ -52,8 +53,8 @@ audience: ai-agent, human
 1. Copy _knowledge/_template.md → _knowledge/[type]/[kebab-title].md
 2. Điền đầy đủ frontmatter — apply_when phải là 1 câu rõ ràng
 3. Thêm row vào Quick Index bên trên
-4. node c:\Docs\sync.js --push
-5. Thêm vào VitePress sidebar: c:\Docs\.vitepress\config.ts
+4. node c:\Edocs\sync.js --push
+5. Thêm vào VitePress sidebar: c:\Edocs\.vitepress\config.ts
 ```
 
 ---
@@ -66,3 +67,4 @@ audience: ai-agent, human
 | `errors/` | Bug/problem → root cause → fix đã verify |
 | `innovations/` | Insight mới, approach chưa phổ biến, discovery |
 | `patterns/` | Proven code/workflow pattern đã dùng ≥ 3 lần |
+| `reference/` | Bản đồ tra cứu toàn cảnh 1 lĩnh vực (Houdini techniques…) — đọc để CHỌN, không phải case lẻ |
