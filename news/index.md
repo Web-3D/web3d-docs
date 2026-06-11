@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **12:52 11/06/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **18:24 11/06/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.12.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.12.0) | 11/06/2026 | - Atmosphere import updates - by [kircher1](https://github.com/kircher1) ([#18536](https://github.co |
 | [9.11.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.11.0) | 04/06/2026 | - Add WGSL shader paths for GUI3D and GPU particles - by [matthargett](https://github.com/mattharget |
 | [9.10.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.10.1) | 29/05/2026 | - Make smartAssetManager tree-shakeable - by [georginahalpern](https://github.com/georginahalpern) ( |
-| [9.10.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.10.0) | 28/05/2026 | - PBR: Fix refraction intensity applied to irradiance - [_Bug Fix_] by [Popov72](https://github.com/ |
 
-**npm latest:** `babylonjs@9.11.0` — 04/06/2026
+**npm latest:** `babylonjs@9.12.0` — 11/06/2026
 
 ---
 
