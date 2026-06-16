@@ -9,7 +9,7 @@ Hồ/ao nước **phản chiếu gương thật** cho site-kit (anh em `GrassGro
 1. **`reflector({ resolution: 1, bounces: false })`** — three dựng virtual-camera đối xứng qua mặt nước, render scene vào RTT (HalfFloat). ⚠ **`resolution` PHẢI = 1** trên three r174 WebGPU — `<1` làm RT reflector lệch kích thước với `viewportSharedTexture` (khúc xạ copy full drawing-buffer) → out-of-bounds crash (`KI-011`). RTT = **drawing-buffer × resolution** = full màn hình (tỉ-lệ-MÀN-HÌNH, KHÔNG theo diện tích hồ). `bounces:false` = render 1 lần/frame, né reflector-soi-reflector.
 2. **Gợn sóng** — FBM 2 octave (4 lớp `triNoise3D`): octave lớn (tần 0.6×, sóng to) + octave chi tiết (tần 2.2× lệch, cuộn ngược 1.4× → phá tính đều) cuộn theo `uTime*uFlow` → `surfaceNormal` lắc quanh trục Y. **Không cần texture** → module tự chứa, copy ra dùng được ngay.
 3. **Distortion** — `surfaceNormal.xz` dời `uvNode` của reflector + uv khúc xạ → mặt gương + đáy "rung" theo sóng.
-4. **Khúc xạ (B)** — `viewportSharedTexture(viewportSafeUV(screenUV + lệch))` lấy cái-SAU-nước trong framebuffer (đáy/nền) → **nhìn xuyên thấy đáy, gợn sóng**. Ám về `waterColor` theo `tint` (absorption giả). Nước `transparent=true` (vẽ sau opaque → có đáy để khúc xạ).
+4. **Khúc xạ (B)** — `viewportSharedTexture(viewportSafeUV(screenUV + lệch))` lấy cái-SAU-nước trong framebuffer (đáy/nền) → **nhìn xuyên thấy đáy, gợn sóng**. Ám về `waterColor` theo `tint` (absorption giả) — nhìn xuống còn cộng Beer-Lambert theo cột nước (`depthDensity`). 🤿 **Nhìn từ DƯỚI nước LÊN** (camera dưới mặt, `eye.y<0`): "đáy-sau-mặt" = TRỜI xa nên `depthFade` sai hướng → ám kéo lên hằng **mờ đục cao `UNDERWATER_MURK`=0.9** → trần nước đục, KHÔNG thấy xuyên cảnh trên (cầu/trời) rõ; chừa ~10% refraction gợn cho mặt "sóng sánh". Nước `transparent=true` (vẽ sau opaque → có đáy để khúc xạ).
 5. **Fresnel (Schlick)** — `mix(refraction, reflection, fresnel)`: nhìn xiên (grazing) → gương; nhìn thẳng xuống → **xuyên thấy đáy**.
 6. **Đốm nắng** — `reflect(-sunDir, normal)` chấm với hướng nhìn, mũ `shininess` → glint dịch theo `setSun(x,y,z)` (cùng pattern `GrassBlades`).
 
@@ -88,7 +88,7 @@ water.setSplashAmp(1) // 💦 "bắn tâm": dome lồi nẩy NGAY TÂM trước 
 
 ## ☔ Ambient rain-ripple (hybrid — mưa dày phủ khắp)
 
-Pool analytic ở trên hợp cho **va chạm RỜI** (cá/vật/giọt nhấn) nhưng tốn O(N) khi muốn rất dày. Cho **mưa nền phủ khắp** dùng lớp **thủ tục O(1)**: chia world-XZ thành **ô lưới**, mỗi ô tự phát 1 giọt loang theo `fract(uTime + hash(ô))` (lệch pha, tâm jitter), sample **2×2 ô/fragment** → vòng cắt biên ô vẫn liền, **phủ KHẮP mặt nước, mật độ vô hạn, chi phí CỐ ĐỊNH 4 ô** (không phụ thuộc số giọt).
+Pool analytic ở trên hợp cho **va chạm RỜI** (cá/vật/giọt nhấn) nhưng tốn O(N) khi muốn rất dày. Cho **mưa nền phủ khắp** dùng lớp **thủ tục O(1)**: chia world-XZ thành **ô lưới**, mỗi ô tự phát 1 giọt loang theo `fract(uTime + hash(ô))` (lệch pha, tâm jitter), sample **3×3 ô/fragment** (đối xứng ±1 ô quanh ô của fragment) → vòng của giọt jitter-tâm ở ô lân cận KHÔNG bị cắt cụt ở ranh giới ô, **phủ KHẮP mặt nước, mật độ vô hạn, chi phí CỐ ĐỊNH 9 ô** (không phụ thuộc số giọt). ⚠ Bản 2×2 cũ → **nháy LƯỚI Ô VUÔNG** (jitter ±0.35 ô + bán kính loang tới ~0.6 ô khiến vòng vươn quá hàng xóm trực tiếp, đóng góp tắt/hiện đột ngột ở ranh giới); 3×3 (cả `_rainNormal` + `_rainGlint`) hết seam.
 
 ```typescript
 water.setRainWet(0.7) // ☔ cường độ mưa nền [0..1] — caller set = độ nặng mưa; 0 = khô (tắt lớp này)
@@ -104,7 +104,7 @@ water.setRainGlint(3); water.setRainGlintSize(0.2) // 👑 đốm "vương miệ
 - **Hybrid:** ambient lo nền-mưa-dày (rẻ) + pool 16 vòng lo va-chạm-rời (cá/vật). Mật độ mưa nền = `RAIN_CELL` (ô nhỏ = dày hơn), KHÔNG đụng `RIPPLE_SLOTS`.
 - **🎲 Scope random + 📉 falloff:** mỗi giọt `maxR = mix(min,max, hash(drop))` (cỡ vòng to/nhỏ khác nhau mỗi chu kỳ, không cố định) — `setRainScopeRange`; biên độ × `oneMinus(smoothstep(0,maxR,d))` → **nhỏ dần khi lan ra xa tâm**. + 💦 splash-core (dome nẩy tâm, `setSplashAmp`).
 - **👑 Đốm vương miện (`_rainGlint`):** loé sáng cộng `× sunColor` tại TÂM mỗi giọt lúc vừa đâm, cường độ NGẪU NHIÊN per-giọt (`pow(hash,3)` → đa số nhẹ, thi thoảng loé to = lấp lánh), **hình TIA SAO** (`atan2` + `cos(ang·rays)`, xoay ngẫu nhiên per-ô) thay hình tròn. `setRainGlint`(trần sáng [0–8]) + `setRainGlintSize`(cỡ ×dải [0.02–1]).
-- **Cost:** 4 ô × 2 vòng-lặp (normal + glint) × (~`hash`/`sqrt`/`cos`/`atan2`/`smoothstep`)/fragment — rẻ hơn pool, **không tăng theo độ dày**.
+- **Cost:** 9 ô × 2 vòng-lặp (normal + glint) × (~`hash`/`sqrt`/`cos`/`atan2`/`smoothstep`)/fragment — 3×3 (né seam ô vuông) nên ~2.25× so 2×2 cũ, vẫn rẻ hơn reflector pass, **không tăng theo độ dày**. Chỉ trên diện mặt nước (PERF, không phải binding).
 
 ## Performance
 

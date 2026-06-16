@@ -14,6 +14,7 @@ audience: ai-agent, human
 
 | Entry | Type | Domain | apply_when | Status |
 |---|---|---|---|---|
+| [engine/ — Engine Knowledge Map](engine/) | reference | three-js | Khi cần tra module / kỹ thuật / vai trò THREEJS, hoặc quyết hướng web-vs-game / framework (R3F) | living |
 | [multi-agent-orchestration](innovations/multi-agent-orchestration) | innovation | agent-system | Khi nhiều Claude Code session cần phối hợp trong 1 ecosystem | validated |
 | [houdini-techniques](reference/houdini-techniques) | reference | cross-ecosystem | Khi cần chọn kỹ thuật geometry/texture/terrain mà chưa biết Houdini có gì — tra theo NHU CẦU trước khi viết code mới | living (ảnh chụp 2026-06-10; tiến độ port = Factory catalog) |
 

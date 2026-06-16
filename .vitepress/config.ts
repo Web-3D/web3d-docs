@@ -136,13 +136,22 @@ export default defineConfig({
           ],
         },
       ],
-    },
 
     '/knowledge/': [
       {
         text: 'Knowledge Base',
         items: [
           { text: 'Overview', link: '/knowledge/' },
+        ],
+      },
+      {
+        text: 'Engine (THREE.js)',
+        collapsed: false,
+        items: [
+          { text: 'Knowledge Map', link: '/knowledge/engine/' },
+          { text: 'Modules theo vai trò', link: '/knowledge/engine/modules-by-role' },
+          { text: 'Kỹ thuật', link: '/knowledge/engine/techniques' },
+          { text: 'Web vs Game', link: '/knowledge/engine/web-vs-game' },
         ],
       },
       {
@@ -208,6 +217,7 @@ export default defineConfig({
         ],
       },
     ],
+    },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/NgQuan86' },

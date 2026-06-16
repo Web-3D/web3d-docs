@@ -30,11 +30,49 @@ Cặp với [`GrassGround`](../../shaders/ground/GrassGround/) (tier A) làm **l
 import { GrassBlades } from 'threejs-modules/components/GrassBlades'
 
 const grass = new GrassBlades({ width: 12, depth: 9.6, baseY: 0.01, density: 100 })
-scene.add(grass.getMesh())
+scene.add(grass.getMesh()) // ⚠️ getMesh() trả THREE.Object3D (GROUP) — single-species = group ôm 1 mesh lá
 // Live (uniform): grass.setColor(0x4f7a33)
 // Structural (density/bladeHeight/bladeWidth/segments/taper) → tạo instance MỚI — đừng gọi mỗi frame
-grass.dispose() // geometry + NodeMaterial + gỡ mesh
+grass.dispose() // geometry + NodeMaterial + gỡ Group
 ```
+
+## Mix nhiều loài (`species[]`) — "mix preset" kiểu engine lớn
+
+Trộn 2–3 loài cỏ/cỏ nhỏ chung 1 bãi: **mỗi loài = 1 InstancedMesh riêng** (hình/màu/bụi/weight độc lập),
+tất cả rải chung 1 rect + né cùng `exclude` + bám cùng `heightAt` (đúng pattern **HISM-per-foliage-type** của
+Unreal Foliage). Field top-level làm **base**, mỗi loài override field nó cần; field CHUNG cả bãi
+(`width`/`depth`/`baseY`/`density`/`maxBlades`/`exclude`/`heightAt`) KHÔNG đặt trong loài.
+
+```typescript
+const meadow = new GrassBlades({
+  width: 12, depth: 9.6, density: 140,        // CHUNG cả bãi; tổng count chia theo weight
+  species: [
+    { weight: 5, bladeHeight: 0.32, bend: 0.2, bladesPerClump: 3, color: 0x4f7a33 }, // cỏ cao nền
+    { weight: 3, bladeHeight: 0.14, taper: 0.45, bladesPerClump: 4, color: 0x6f9c4a }, // cỏ thấp chen
+    { weight: 1, bladeHeight: 0.22, taper: 0.92, color: 0xcdd06a },                    // đốm hoa/cỏ đuôi
+  ],
+})
+scene.add(meadow.getMesh())
+meadow.setSpeciesColor(0, 0x567f38)   // chỉnh màu RIÊNG loài 0 — LIVE
+meadow.setColor(0x4f7a33)             // hoặc áp MỌI loài cùng lúc
+```
+
+- **Bỏ `species`** = 1 loài, dùng thẳng prop top-level → **hành vi y như trước**.
+- **Budget-neutral:** tổng số lá vẫn cap `maxBlades`, chỉ *chia* cho các loài theo `weight`. Draw calls = N loài
+  (+ N vệt-tiếp-đất nếu bật) — N ≤ ~3 ⇒ ≤ 6 draws, dư xa trần 100.
+- **Setter:** `setColor`/`setInnerColor`/`setShadowDark`/`setContactDark`/`setSun`… áp **mọi loài**;
+  `setSpeciesColor(i, c)`/`setSpeciesInnerColor(i, c)` áp **riêng loài i**. `getSpeciesCount()` = số loài.
+
+### `GrassSpecies` (override per-loài)
+
+| Field | Ý nghĩa |
+| ----- | ------- |
+| `weight` | Tỉ trọng số lá so với loài khác (default 1; vd 5:3:1) |
+| `bladeHeight` `bladeWidth` `midWidth` `segments` `taper` `curveLR` `bend` `cup` `cupGeo` `cupNormalGain` | Hình lá — như prop top-level cùng tên |
+| `bladesPerClump` `clumpRadius` `clumpSplay` | Bụi — như prop top-level cùng tên |
+| `color` `innerColor` `shadowDark` `shadowSpan` `contactDark` `contactRadius` | Màu/bóng/vệt — như prop top-level cùng tên |
+
+> Field nào bỏ trống trong loài → kế thừa giá trị top-level (rồi tới DEFAULTS).
 
 ## Props
 
