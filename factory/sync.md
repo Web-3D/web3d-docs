@@ -24,6 +24,18 @@
 
 ## Log
 
+### 2026-06-11 — make-thumbs.ps1: thumb 64² cho kho texture (palette mix archplan)
+
+- **Script:** `scripts/make-thumbs.ps1` — System.Drawing (0 dependency Windows), đọc `production/basecolor.jpg|png`
+  (KHÔNG đụng .ktx2), JPEG q85 HighQualityBicubic, idempotent (skip thumb mới hơn basecolor, `-Force` ghi đè);
+  kiêm chèn field `"thumb": "thumb.jpg"` vào meta.json — ghi `[IO.File]::WriteAllText` UTF8 no-BOM + string-insert
+  (né bẫy Set-Content BOM/mojibake tiếng Việt PS 5.1, giữ nguyên format file).
+- **Chạy lần đầu:** 22/22 bộ ✅ (~1.3KB/thumb, 29KB tổng, 0 warn) — assets repo commit `1ab108a`; chạy lại = 22 skip.
+- **PROTOCOL.md (assets/textures):** +row `thumb` schema §2 + dòng cây production/ + mục "Thumb cho UI"
+  (palette dùng `<img>` thumb, KHÔNG decode ktx2 ra canvas; thumb = DERIVED, hỏng thì chạy lại script).
+- **Pipeline +1 bước:** texture mới → đủ production/ → chạy lại 1 lệnh script (idempotent).
+- **Kết quả:** PASS — consumer: palette texture swatch archplan (plan mix-palette-bucket ✅ trọn cùng ngày, Engine/THREEJS).
+
 ### 2026-06-02 — Lane character/rig: dựng tooling + chốt boundary với engine
 
 - **Verify hướng mới engine (grep toàn `THREEJS/`, trừ node_modules):**

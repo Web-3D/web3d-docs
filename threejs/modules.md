@@ -118,6 +118,9 @@
 | `BeamEffect`         | Line beam A→B — laser, lightning, connection, rope            | beam, laser, lightning, line          | 🗄 idle |
 | `BillboardSprite`    | Sprite luôn xoay mặt về camera — icon, marker, glow           | sprite, billboard, camera-facing, marker | 🗄 idle |
 | `ShockwaveRing`      | Ring mở rộng theo thời gian — shockwave, impact, explosion    | shockwave, ring, impact, explosion    | 🗄 idle |
+| `Precipitation`      | Mưa/tuyết field — rain LineSegments streak / snow Points, trụ bám camera, 1 draw | weather, rain, snow, points, field | ✅ active |
+| `SnowCover`          | Tuyết đọng nền — overlay phẳng, opacity noise×accum mọc dần phủ kín, 1 draw | weather, snow, accumulation, overlay | ✅ active |
+| `SplashBurst`        | Vương miện + giọt nước tung tóe tại va-chạm rời — pool birth-per-particle, bay đạn-đạo, 0 CPU/frame | splash, water, particles, ballistic, impact | ✅ active |
 
 ---
 
@@ -130,6 +133,7 @@
 | `OutlineShader`  | Per-object outline via BackSide scaled mesh — no post-processing | outline, highlight, select, backside    | 🗄 idle |
 | `InstancedBrickWall` | Tường gạch geometry THẬT — nền vữa + InstancedMesh vạn viên running-bond, khe = vữa lõm; lỗ cửa/sổ (chữ nhật + TRÒN) bằng CULL viên + khoét backing; + DECAY tuổi tường (mất viên/lệch/thụt/sạm — hash vị trí, tái lập) | brick, wall, instanced, running-bond, decay, architecture | ✅ in-use |
 | `BrickPaving` | 🧱 SÂN lát gạch bond đều (bản NẰM của brick): nền vữa + InstancedMesh viên block so le chừa khe + DECAY (rụng/lún/xoay lệch/sạm). CONSUMER op #3 — build trên gridOnSurface + copyToPoints + mulberry32. Site-kit zoneKind 'paving' | brick, gạch, paving, sân, running-bond, decay, instanced, site-kit, op-3 | ✅ in-use (site-kit) |
+| `CurvedBrickWall` | 🧱 TƯỜNG gạch CONG tự do (tường vườn): thân vữa cong theo CUNG (R + góc quét, 360°=vòng kín) + viên running-bond nhô CẢ 2 MẶT + DECAY (rụng trùng chỗ 2 mặt = vết tróc thật). TỔ HỢP 4 OP: #1 resample spine + #2 sweep thân + #3 rows (đếm chiều dài thật)/copyToPoints + #5 mulberry. Site-kit zoneKind 'wall' | brick, gạch, wall, tường cong, curved, arc, sweep, decay, instanced, site-kit | ✅ in-use (site-kit) |
 | `WoodSidingWall` | Tường ván gỗ ngang (clapboard) instanced — ~13 tấm nghiêng chồng mép, 2 mặt/tấm (4 tris), cực rẻ (~64 tris) | wood, siding, clapboard, plank, instanced | ✅ in-use |
 | `WoodSidingStrip` | Tường ván gỗ 1 KHỐI răng cưa, HỘP KÍN 6 MẶT + khoét cửa/sổ (jamb reveal) — plain mesh MERGE được xuyên nhà | wood, siding, clapboard, strip, mergeable, openings | ✅ in-use |
 | `GrassBlades` | Cỏ 3D nhú lên (tier B) — InstancedMesh lá geometry, accent-only+cap; cặp `GrassGround` tier A. **Rebuild tăng dần (preview-first)** — B0: lá phẳng + 1 màu | vegetation, instanced, grass, cỏ, tier-b, site-kit | ✅ in-use |
@@ -137,6 +141,7 @@
 | `SkyGradient` | Bầu trời gradient ngày↔đêm WebGPU qua `scene.backgroundNode` (KHÔNG mesh → luôn phủ, né "quả cầu từ ngoài") — zenith→horizon lerp theo độ-cao sun + quầng nắng/hoàng hôn. `setSun(dir)`→day-factor để mờ đèn fill/env | sky, environment, day-night, gradient, backgroundnode, tsl, webgpu | ✅ in-use |
 | `Waterfall` | Thác nước stylized (tier B, công thức RiME/Season — A2) — MÀN sheet cong (z=arc·√t) + TEXTURE VỆT (canvas 1 lần) cuộn 3 LỚP khác tốc + fresnel + KHÚC XẠ màn + lip/foot band + posterize + wobble; chân = MIST bốc + SPLASH ngang (sprite mềm). 0 RTT/0 asset, 3 draw; tune ở Lab tab 🌊 Thác | water, waterfall, thác, foam, mist, splash, fresnel, refraction, tsl, site-kit, tier-b | 🆕 module |
 | `StoneScatter` | Rải mảng đá DẸT tròn/ellipse trong khuôn vô hình bằng Poisson-disk (Bridson → blue-noise): cách đều ngẫu nhiên, KHÔNG chạm nhau (chừa khe cỏ). N phiến = 1 InstancedMesh = 1 draw, deterministic theo seed. Lối đi lát đá sân vườn (stepping-stone v1). Voronoi ghép-khít = đích xa | stone, đá, scatter, poisson, stepping-stone, paving, instanced, site-kit | 🆕 module |
+| `PondFish` | 🐟 Đàn cá koi PROCEDURAL bơi lòng hồ — thân low-poly ~131 tri/con, đuôi vẫy TSL vertex-bend GPU (0 rig/0 asset/0 texture), màu koi trắng+cam+đốm per-con (hash+triNoise3D), wander CPU rẻ, cả đàn 1 draw. Phase B ✅: `buildPondFish` (site/render/water.ts) + GUI 🐟 tab Surface | fish, koi, cá, pond, water, instanced, vertex-animation, site-kit | ✅ in-use (site-kit) |
 
 ---
 
@@ -214,8 +219,9 @@
 
 | Mục | Mô tả |
 | --- | ----- |
-| `site/state` | `SiteState` (nền + cỏ-3D + **hồ nước** + rào) + factory + `GROUND_PRESETS` + `coverageStats` (建ぺい率 đối chiếu nhà/lô) + `parseSite`. Lô mặc định 15×14.4m |
-| `site/render/fromState` | `renderSiteState(site, ctx)` headless — nền slab (có hồ → ExtrudeGeometry **khoét lỗ** `Shape.holes`) + **cỏ 3D** (`GrassBlades`, mọi nền, 2 màu mặt trong/ngoài) + **hồ nước** (`WaterSurface` reflect+refract + **basin** đáy vách+sàn theo polygon; cỏ né footprint) + hàng rào (merged) |
+| `site/state` | `SiteState` (nền + cỏ-3D + **hồ nước** + rào) + factory + `GROUND_PRESETS` + `coverageStats` (建ぺい率 đối chiếu nhà/lô) + `parseSite` (impl ở `site/state-parse.ts` — re-export barrel). Lô mặc định 15×14.4m |
+| `site/state-parse` | Tầng deserialization tolerant cho `SiteState` (`parse*` default-fill + clamp + migrate format cũ) — tách khỏi `state.ts`; chỉ `parseSite` public, còn lại nội bộ |
+| `site/render/fromState` | `renderSiteState(site, ctx)` headless — orchestrator + nền slab/grid/heightfield + layers/zones/mix. Sub-domain tách file (re-export barrel — consumer import từ đây như cũ): `render/water.ts` (hồ `WaterSurface` reflect+refract + basin + coping + viền đá/rào hồ), `render/fence.ts` (rào gỗ/tường/đá + cổng), `render/grass.ts` (cỏ 3D `GrassBlades` + grassBuildSig) |
 
 - **Phases:** G0 nền+rào ✅ · **G1a cỏ 3D `GrassBlades` — rebuild tăng dần (B0 lá phẳng+1 màu ✅; B1 thon → B9 đổ-bóng ⏳)** · G1b cây/bụi ⏳ · G2 đá triplanar ⏳ · **G3 hồ nước (tier C) `WaterSurface` — ✅ reflect+refract (nhìn xuyên đáy) + basin + form tự do; wired site/render + GUI archplan**.
 - **Coupling:** caller bật `site.show` → đôn building lên `groundThick` (foundation nằm trên mặt nền).

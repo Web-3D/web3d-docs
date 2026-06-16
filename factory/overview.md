@@ -38,7 +38,7 @@ baked/          ← output: .glb thô — tất cả tools ghi vào đây
 Factory/
 ├── source/              ← input assets (tất cả tools dùng chung) — flat
 ├── baked/               ← .glb thô (output của bất kỳ tool nào) — flat
-├── scripts/             ← shared: deploy.js (Phase D)
+├── scripts/             ← shared: deploy.js (Phase D) + make-thumbs.ps1 (thumb.jpg 64² mọi texture set — palette UI)
 ├── blender/             ← tool plugin — ANCHOR hiện tại
 │   ├── scripts/         ← Python Blender-specific
 │   ├── templates/       ← .blend templates chuẩn

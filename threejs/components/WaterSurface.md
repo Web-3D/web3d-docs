@@ -6,7 +6,7 @@ Hồ/ao nước **phản chiếu gương thật** cho site-kit (anh em `GrassGro
 
 ## Cách hoạt động
 
-1. **`reflector({ resolution: 0.5, bounces: false })`** — three dựng virtual-camera đối xứng qua mặt nước, render scene vào RTT (HalfFloat). `resolution<1` = RTT nhỏ hơn buffer (rẻ + hơi mờ, hợp nước). `bounces:false` = render 1 lần/frame, né reflector-soi-reflector.
+1. **`reflector({ resolution: 1, bounces: false })`** — three dựng virtual-camera đối xứng qua mặt nước, render scene vào RTT (HalfFloat). ⚠ **`resolution` PHẢI = 1** trên three r174 WebGPU — `<1` làm RT reflector lệch kích thước với `viewportSharedTexture` (khúc xạ copy full drawing-buffer) → out-of-bounds crash (`KI-011`). RTT = **drawing-buffer × resolution** = full màn hình (tỉ-lệ-MÀN-HÌNH, KHÔNG theo diện tích hồ). `bounces:false` = render 1 lần/frame, né reflector-soi-reflector.
 2. **Gợn sóng** — FBM 2 octave (4 lớp `triNoise3D`): octave lớn (tần 0.6×, sóng to) + octave chi tiết (tần 2.2× lệch, cuộn ngược 1.4× → phá tính đều) cuộn theo `uTime*uFlow` → `surfaceNormal` lắc quanh trục Y. **Không cần texture** → module tự chứa, copy ra dùng được ngay.
 3. **Distortion** — `surfaceNormal.xz` dời `uvNode` của reflector + uv khúc xạ → mặt gương + đáy "rung" theo sóng.
 4. **Khúc xạ (B)** — `viewportSharedTexture(viewportSafeUV(screenUV + lệch))` lấy cái-SAU-nước trong framebuffer (đáy/nền) → **nhìn xuyên thấy đáy, gợn sóng**. Ám về `waterColor` theo `tint` (absorption giả). Nước `transparent=true` (vẽ sau opaque → có đáy để khúc xạ).
@@ -48,7 +48,7 @@ Mesh tự nằm ngang trong XZ (`rotation.x = -π/2`) tại `baseY`. `reflector.
 | `refract` | number | `1` | Hệ số méo ảnh KHÚC XẠ (×distortion) [0–2] — gợn ảnh đáy nhìn-xuyên-nước; live `setRefract` |
 | `shininess` | number | `100` | Độ gắt đốm nắng (mũ specular) |
 | `alpha` | number | `1` | Độ mờ [0–1]; <1 = trong suốt |
-| `resolution` | number | `0.5` | Tỉ lệ RTT [0–1] — **cần gạt cost chính** |
+| `resolution` | number | `1` | Tỉ lệ RTT — ⚠ **PHẢI = 1** (`<1` crash `KI-011`); KHÔNG hạ được để gạt cost |
 | `points` | `{x,z}[]` (m, local) | `undefined` | Polygon mặt nước tự do (≥3 đỉnh) → `ShapeGeometry`; bỏ trống = chữ nhật. Đổi live: `setShape(points)` |
 | `tint` | number | `0.4` | Ám màu nước lên ảnh khúc xạ [0–1] (absorption giả; cao = đục, đáy mờ); live `setTint` |
 
@@ -64,10 +64,53 @@ w.setShape(newPoints)
 
 `setShape` dispose geometry cũ + gán mới vào mesh — rẻ, gọi được mỗi frame khi kéo đỉnh. <3 đỉnh → fallback chữ nhật.
 
+## Gợn va chạm (impact ripple)
+
+Khi **bất cứ gì chạm mặt nước** (giọt mưa, cá trồi/xác dập dìu, vật rơi…) → vòng sóng đồng tâm loang ra rồi tắt. Vì mặt nước **phẳng** (sóng nằm trong normal, KHÔNG displace đỉnh), gợn cũng **cộng vào normal** — reflection/refraction/fresnel tự gợn theo.
+
+```typescript
+// tại điểm (x,z) WORLD, biên độ strength 0..1 (caller tự quy từ kích thước/khối lượng/vận tốc)
+water.emitRipple(worldX, worldZ, 0.4)
+// 🏓 va chạm tại điểm LOCAL (so tâm hồ) — reflect=true (hồ CHỮ NHẬT) → thêm 4 vòng dội tường (ping-pong)
+water.emitImpact(localX, localZ, 0.7, true)
+water.setRippleAmp(0) // 🧊 TẮT toàn bộ gợn — mặt băng phẳng lì (đóng băng); 1 = bật lại
+water.setSplashAmp(1) // 💦 "bắn tâm": dome lồi nẩy NGAY TÂM trước khi vòng tỏa (chung pool + rain); 0 = tắt
+```
+
+> **💦 Splash-core (bắn tâm):** ngay tâm va-chạm/giọt, TRƯỚC khi vòng tỏa, dome lồi nẩy lên rồi tắt nhanh (`setSplashAmp`, chung pool + rain-cell). Vẫn normal-only → "đọc ra nẩy" bằng ánh sáng. **Hạt nước dựng đứng + bụi tung tóe THẬT** không dựng được trong normal → dùng module bạn **`effects/SplashBurst`** (GPU sprite, gọi `burst(x,y,z,s)` kèm `emitImpact`).
+
+> **🏓 Phản xạ tường (method of images):** `emitImpact(localX, localZ, s, reflect)` bắn vòng gốc + (nếu `reflect`) **4 vòng-ẢNH** = gương của điểm qua 4 tường (`±width/2`, `±depth/2`), strength ×`RIPPLE_REFLECT` (0.6). Ảnh xa hơn → wavefront tới TRỄ = **đúng quãng dội** (tự khớp, không cần timer). Chỉ chuẩn cho **hồ chữ nhật**; tròn/ellipse/free → `reflect=false`.
+
+- **Pool 16 vòng** (`RIPPLE_SLOTS`) — CHỈ cho va-chạm RỜI (cá/vật; mưa-dày do lớp ambient rain-cell lo): mỗi `emitRipple` ghi 1 slot **xoay vòng** (uniform `vec4` = tâm X, Z, t0, strength) → bắn liên tục thì vòng cũ nhất bị đè. **0 CPU/frame** trừ lúc bắn (chỉ ghi 1 uniform); shader đọc `uTime` so với `t0`.
+- Mỗi vòng: `front = d − age·SPEED` (loang ra 1.3 m/s) × dải sóng quanh front (smoothstep WIDTH) × tắt theo tuổi (LIFE ~2.6s) × `cos(front·WAVES)` (lăn tăn) → nghiêng normal **theo hướng ra tâm** (×`RIPPLE_AMP`). Tự tắt sau ~2.6s.
+- **Biên độ theo vật chạm:** API chỉ phơi 1 núm `strength`; caller quy đổi (mưa ~0.3 · cá trồi ~theo size · vật to/nhanh → cao). `setRippleAmp` = núm tổng (×) — dùng để TẮT khi băng. Hiển thị qua fresnel + đốm nắng (độc lập distortion) + offset gương (×distortion).
+- **Cost:** 16 slot × (~1 `cos` + 1 `sqrt` + 2 `smoothstep`)/fragment **mặt nước** (O(N) theo slot) — nhẹ. Build 1 lần ở constructor (`emitRipple` chỉ set uniform → KHÔNG recompile). Độ-dày-mưa KHÔNG còn dựa pool (ambient rain-cell lo) → pool gọn cho va-chạm rời.
+
+## ☔ Ambient rain-ripple (hybrid — mưa dày phủ khắp)
+
+Pool analytic ở trên hợp cho **va chạm RỜI** (cá/vật/giọt nhấn) nhưng tốn O(N) khi muốn rất dày. Cho **mưa nền phủ khắp** dùng lớp **thủ tục O(1)**: chia world-XZ thành **ô lưới**, mỗi ô tự phát 1 giọt loang theo `fract(uTime + hash(ô))` (lệch pha, tâm jitter), sample **2×2 ô/fragment** → vòng cắt biên ô vẫn liền, **phủ KHẮP mặt nước, mật độ vô hạn, chi phí CỐ ĐỊNH 4 ô** (không phụ thuộc số giọt).
+
+```typescript
+water.setRainWet(0.7) // ☔ cường độ mưa nền [0..1] — caller set = độ nặng mưa; 0 = khô (tắt lớp này)
+// 6 tham số HÌNH-DẠNG live (đơn vị Ô — caller quy từ mm/density): cell · amp · rate · maxR(scope) · waves(k=2π/λ) · width(dải)
+water.setRainCell(0.34) // cạnh ô (m) — nhỏ = mưa dày hơn
+water.setRainAmp(1.4); water.setRainRate(1.3)
+water.setRainScopeRange(0.21, 0.42) // 🎲 dải bán kính [min,max] (ô) — mỗi giọt RANDOM cỡ vòng trong dải; chặn ≤0.6
+water.setRainWaves(22) // k = 2π/λ (ô); water.setRainWidth(0.12) // bề rộng dải = số-bước-sóng × λ
+water.setRainGlint(3); water.setRainGlintSize(0.2) // 👑 đốm "vương miện" TIA SAO loé ngẫu nhiên tâm giọt: trần sáng + cỡ(×dải)
+```
+
+- Mỗi ô: `cycle = fract(uTime·RAIN_RATE + hash(ô))` (đời 1 giọt) → `front = d − cycle·RAIN_MAXR` (loang trong ô) × dải × `(1−cycle)` (giọt mới mạnh) × `cos` → nghiêng normal ra tâm. ×`uRainWet`.
+- **Hybrid:** ambient lo nền-mưa-dày (rẻ) + pool 16 vòng lo va-chạm-rời (cá/vật). Mật độ mưa nền = `RAIN_CELL` (ô nhỏ = dày hơn), KHÔNG đụng `RIPPLE_SLOTS`.
+- **🎲 Scope random + 📉 falloff:** mỗi giọt `maxR = mix(min,max, hash(drop))` (cỡ vòng to/nhỏ khác nhau mỗi chu kỳ, không cố định) — `setRainScopeRange`; biên độ × `oneMinus(smoothstep(0,maxR,d))` → **nhỏ dần khi lan ra xa tâm**. + 💦 splash-core (dome nẩy tâm, `setSplashAmp`).
+- **👑 Đốm vương miện (`_rainGlint`):** loé sáng cộng `× sunColor` tại TÂM mỗi giọt lúc vừa đâm, cường độ NGẪU NHIÊN per-giọt (`pow(hash,3)` → đa số nhẹ, thi thoảng loé to = lấp lánh), **hình TIA SAO** (`atan2` + `cos(ang·rays)`, xoay ngẫu nhiên per-ô) thay hình tròn. `setRainGlint`(trần sáng [0–8]) + `setRainGlintSize`(cỡ ×dải [0.02–1]).
+- **Cost:** 4 ô × 2 vòng-lặp (normal + glint) × (~`hash`/`sqrt`/`cos`/`atan2`/`smoothstep`)/fragment — rẻ hơn pool, **không tăng theo độ dày**.
+
 ## Performance
 
 - **Reflector pass:** mỗi frame render lại scene qua virtual-camera → ~+1 render pass, draw calls vùng đó nhân đôi. Đây là cái giá của "gương thật".
-- **Cần gạt:** hạ `resolution` (0.5 → 0.25 nếu cần) và `bounces:false` (đã mặc định). Tránh đặt hồ ở nơi nhìn thấy nhiều mesh nặng (cả đống đó bị render thêm lần nữa).
+- **Cost theo SỐ HỒ, KHÔNG theo diện tích:** RTT = `drawing-buffer × resolution` (tỉ-lệ-MÀN-HÌNH) + render TOÀN scene → **hồ to và hồ nhỏ tốn RTT Y HỆT**; 2 hồ ≈ 2× bất kể kích cỡ (2 hồ nhỏ > 1 hồ to). Phần THEO diện tích chỉ là **fragment fill-rate** (theo screen-coverage) — nhẹ hơn RTT nhiều. ⇒ Biển/hồ-lớn = 1 RTT + fill-rate cực-đại (full-screen) = **worst case planar**; muốn rẻ phải đổi NGUỒN phản chiếu (probe), KHÔNG phải thu nhỏ hồ.
+- **Cần gạt:** ⚠ KHÔNG hạ được `resolution` (=1 cứng, `KI-011`). Đòn thật = **ít hồ planar hơn** (tier probe/LOD theo khoảng-cách: `deferred/rendering/water-reflection-probe-tier.md`) + `bounces:false` (đã mặc định) + tránh đặt hồ nơi nhìn thấy nhiều mesh nặng (cả đống bị render thêm lần nữa).
 - **Fragment:** 4 `triNoise3D` (FBM 2 octave, sóng) + fresnel + specular — vẫn nhẹ so với reflector pass.
 - **`forceUpdate=true` mỗi frame (BẮT BUỘC — né bug three) + shader tắt gương khi facing-away:** `ReflectorNode.updateBefore` set `_inReflector=true` (dòng 374) rồi reset SAU render (484); nhưng nhánh facing-away `if(isFacingAway && !forceUpdate) return` (401) thoát SỚM **bỏ qua reset** → `_inReflector` kẹt true → guard `if(bounces===false && _inReflector) return` (372) làm gương **chết VĨNH VIỄN** sau lần đầu camera chui dưới mặt nước. `forceUpdate=true` né nhánh 401 → luôn reset → không kẹt. Cái giá: khi camera DƯỚI mặt nước reflector render gương "từ dưới lên" SAI → **`_buildColor` tắt mượt** bằng `fres·smoothstep(0, 0.04, eye.y)`. ⚠ Phép thử PHẢI dùng **`eye.y`** (= dot eye với normal PHẲNG +Y), KHÔNG dùng normal SÓNG `dot(eye,n)` — normal sóng nghiêng ±21° theo XZ → phụ-thuộc-azimuth → mất gương ở vài góc quay ngang dù camera vẫn trên nước.
 - **Tắt gương khi NHÌN GẦN THẲNG XUỐNG (top-down):** `fres·(1−smoothstep(0.97, 0.997, eye.y))`. Ở near-vertical virtualCamera reflector suy biến (`lookAt ∥ up`) → ảnh gương ĐƠ khi xoay azimuth. Fade về 0 ở elevation ~76°→86° → hiện khúc xạ (đáy hồ) thay ảnh đơ — top-down soi đáy hợp lý. Giữ gương cho mọi góc xiên thường. Kết quả: mọi góc TRÊN nước gương đúng+live; chui xuống dưới hiện khúc xạ (không ảnh sai, không đứng hình). `mesh.frustumCulled=false` chống freeze-do-cull khi pan.
