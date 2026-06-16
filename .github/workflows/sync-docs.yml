@@ -17,16 +17,16 @@ jobs:
         with:
           path: docs
 
-      - name: Checkout Private-threejs
+      - name: Checkout threejs-engine
         uses: actions/checkout@v4
         with:
-          repository: Web-3D/Private-threejs
+          repository: Web-3D/threejs-engine
           path: threejs
 
-      - name: Checkout Web-3D-Ecosystem
+      - name: Checkout ecosystem-context-ai
         uses: actions/checkout@v4
         with:
-          repository: Web-3D/Web-3D-Ecosystem
+          repository: Web-3D/ecosystem-context-ai
           path: web3d
 
       - name: Setup Node.js
