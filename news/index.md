@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **12:58 18/06/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **18:10 18/06/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.13.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.13.0) | 18/06/2026 | - Rework SceneLoader and add unit tests - [_Bug Fix_] by [ryantrem](https://github.com/ryantrem) ([# |
 | [9.12.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.12.1) | 17/06/2026 | - Add NullEngine multiview render-state testability - by [matthargett](https://github.com/mattharget |
 | [9.12.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.12.0) | 11/06/2026 | - Atmosphere import updates - by [kircher1](https://github.com/kircher1) ([#18536](https://github.co |
-| [9.11.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.11.0) | 04/06/2026 | - Add WGSL shader paths for GUI3D and GPU particles - by [matthargett](https://github.com/mattharget |
 
-**npm latest:** `babylonjs@9.12.1` — 17/06/2026
+**npm latest:** `babylonjs@9.13.0` — 18/06/2026
 
 ---
 
