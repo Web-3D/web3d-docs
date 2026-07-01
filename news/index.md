@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **20:35 01/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **00:19 02/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
-| [r185](https://github.com/mrdoob/three.js/releases/tag/r185) | 25/06/2026 | - Global |
 | [r184](https://github.com/mrdoob/three.js/releases/tag/r184) | 16/04/2026 | - Global |
 | [r183](https://github.com/mrdoob/three.js/releases/tag/r183) | 20/02/2026 | - Global |
+| [r182](https://github.com/mrdoob/three.js/releases/tag/r182) | 10/12/2025 | - Global |
 
-**npm latest:** `three@0.185.0` — 25/06/2026
+**npm latest:** `three@0.185.1` — 01/07/2026
 
 ### Babylon.js
 
