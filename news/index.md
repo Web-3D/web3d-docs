@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **11:56 09/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **15:44 09/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.16.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.16.0) | 09/07/2026 | - fix(addons): render atmosphere PBR materials in their creation frame - by [RaananW](https://github |
 | [9.15.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.15.0) | 02/07/2026 | - Keep pure barrels side-effect-free in gui, loaders, and atmosphere addon - by [RaananW](https://gi |
 | [9.14.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.14.0) | 25/06/2026 | - feat: HTML-in-Canvas (WICG) support — HtmlTexture, interaction managers, polyfill installer - by [ |
-| [9.13.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.13.0) | 18/06/2026 | - Rework SceneLoader and add unit tests - [_Bug Fix_] by [ryantrem](https://github.com/ryantrem) ([# |
 
-**npm latest:** `babylonjs@9.15.0` — 02/07/2026
+**npm latest:** `babylonjs@9.16.0` — 09/07/2026
 
 ---
 
