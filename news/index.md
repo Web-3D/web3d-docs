@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **23:00 09/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **07:08 10/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -24,7 +24,7 @@
 | [9.15.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.15.0) | 02/07/2026 | - Keep pure barrels side-effect-free in gui, loaders, and atmosphere addon - by [RaananW](https://gi |
 | [9.14.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.14.0) | 25/06/2026 | - feat: HTML-in-Canvas (WICG) support — HtmlTexture, interaction managers, polyfill installer - by [ |
 
-**npm latest:** `babylonjs@9.16.0` — 09/07/2026
+**npm latest:** `babylonjs@9.16.1` — 10/07/2026
 
 ---
 
