@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **23:19 14/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **06:55 15/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.16.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.16.2) | 15/07/2026 | - Add writeToDepthBuffer option to MSDF TextRenderer - by [VicenteCartas](https://github.com/Vicente |
 | [9.16.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.16.0) | 09/07/2026 | - fix(addons): render atmosphere PBR materials in their creation frame - by [RaananW](https://github |
 | [9.15.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.15.0) | 02/07/2026 | - Keep pure barrels side-effect-free in gui, loaders, and atmosphere addon - by [RaananW](https://gi |
-| [9.14.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.14.0) | 25/06/2026 | - feat: HTML-in-Canvas (WICG) support — HtmlTexture, interaction managers, polyfill installer - by [ |
 
-**npm latest:** `babylonjs@9.16.1` — 10/07/2026
+**npm latest:** `babylonjs@9.16.2` — 15/07/2026
 
 ---
 
