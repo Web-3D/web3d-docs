@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **18:11 21/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **22:06 21/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -24,7 +24,7 @@
 | [9.16.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.16.2) | 15/07/2026 | - Add writeToDepthBuffer option to MSDF TextRenderer - by [VicenteCartas](https://github.com/Vicente |
 | [9.16.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.16.0) | 09/07/2026 | - fix(addons): render atmosphere PBR materials in their creation frame - by [RaananW](https://github |
 
-**npm latest:** `babylonjs@9.17.0` — 16/07/2026
+**npm latest:** `babylonjs@9.17.1` — 21/07/2026
 
 ---
 
