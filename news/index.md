@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **06:57 22/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **11:19 22/07/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -10,9 +10,8 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
-| [r185](https://github.com/mrdoob/three.js/releases/tag/r185) | 02/07/2026 | - Global |
-| [r184](https://github.com/mrdoob/three.js/releases/tag/r184) | 16/04/2026 | - Global |
-| [r183](https://github.com/mrdoob/three.js/releases/tag/r183) | 20/02/2026 | - Global |
+_Không lấy được dữ liệu._
+
 
 **npm latest:** `three@0.185.1` — 01/07/2026
 
@@ -20,9 +19,8 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
-| [9.17.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.17.0) | 16/07/2026 | - Preserve antialiased edges when writing depth - [_Bug Fix_] by [VicenteCartas](https://github.com/ |
-| [9.16.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.16.2) | 15/07/2026 | - Add writeToDepthBuffer option to MSDF TextRenderer - by [VicenteCartas](https://github.com/Vicente |
-| [9.16.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.16.0) | 09/07/2026 | - fix(addons): render atmosphere PBR materials in their creation frame - by [RaananW](https://github |
+_Không lấy được dữ liệu._
+
 
 **npm latest:** `babylonjs@9.17.1` — 21/07/2026
 
