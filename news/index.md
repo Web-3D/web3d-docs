@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **12:56 14/09/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **20:45 14/09/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.26.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.26.1) | 14/09/2026 | - Add new MultiTexture class - [_New Feature_] by [abogartz](https://github.com/abogartz) ([#18822]( |
 | [9.26.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.26.0) | 10/09/2026 | - Add OpenUSD WebAssembly scene loader - [_New Feature_] by [SergioRZMasson](https://github.com/Serg |
 | [9.25.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.25.0) | 03/09/2026 | - Fluid renderer: add opt-in per-particle size support - by [tini2n](https://github.com/tini2n) ([#1 |
-| [9.23.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.23.0) | 27/08/2026 | - Add WebXR persistent anchor lifecycle support - by [RaananW](https://github.com/RaananW) ([#18840] |
 
-**npm latest:** `babylonjs@9.26.0` — 10/09/2026
+**npm latest:** `babylonjs@9.26.1` — 14/09/2026
 
 ---
 
