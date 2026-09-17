@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **08:11 17/09/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **15:29 17/09/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.27.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.27.0) | 17/09/2026 | - Add KHR_interactivity export support - [_New Feature_] by [RaananW](https://github.com/RaananW) ([ |
 | [9.26.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.26.2) | 16/09/2026 | - Fix: DoF seam (WebGL) and shader-compile crash (WebGPU) in LensRenderingPipeline - [_Bug Fix_] by |
 | [9.26.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.26.1) | 14/09/2026 | - Add new MultiTexture class - [_New Feature_] by [abogartz](https://github.com/abogartz) ([#18822]( |
-| [9.26.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.26.0) | 10/09/2026 | - Add OpenUSD WebAssembly scene loader - [_New Feature_] by [SergioRZMasson](https://github.com/Serg |
 
-**npm latest:** `babylonjs@9.26.2` — 16/09/2026
+**npm latest:** `babylonjs@9.27.0` — 17/09/2026
 
 ---
 
