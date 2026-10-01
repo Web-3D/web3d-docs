@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **08:53 01/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **16:54 01/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.29.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.29.0) | 01/10/2026 | - chore(deps): refresh supported versions and clear security audit - by [RaananW](https://github.com |
 | [9.28.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.28.0) | 24/09/2026 | - Atmosphere: only attach the PBR material plugin to materials in the atmosphere's scene - by [incre |
 | [9.27.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.27.1) | 18/09/2026 | - Add normalized occlusion query visibility API - [_New Feature_] by [RaananW](https://github.com/Ra |
-| [9.27.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.27.0) | 17/09/2026 | - Add KHR_interactivity export support - [_New Feature_] by [RaananW](https://github.com/RaananW) ([ |
 
-**npm latest:** `babylonjs@9.28.0` — 24/09/2026
+**npm latest:** `babylonjs@9.29.0` — 01/10/2026
 
 ---
 
