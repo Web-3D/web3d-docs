@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **23:24 18/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **07:56 19/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -10,8 +10,9 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
-_Không lấy được dữ liệu._
-
+| [r186](https://github.com/mrdoob/three.js/releases/tag/r186) | 24/09/2026 | - Global |
+| [r185](https://github.com/mrdoob/three.js/releases/tag/r185) | 02/07/2026 | - Global |
+| [r184](https://github.com/mrdoob/three.js/releases/tag/r184) | 16/04/2026 | - Global |
 
 **npm latest:** `three@0.186.1` — 24/09/2026
 
@@ -19,8 +20,9 @@ _Không lấy được dữ liệu._
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
-_Không lấy được dữ liệu._
-
+| [9.30.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.30.0) | 08/10/2026 | - MSDF Text: guard fwidth() denominators in the fragment shaders - [_Bug Fix_] by [marns](https://gi |
+| [9.29.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.29.0) | 01/10/2026 | - chore(deps): refresh supported versions and clear security audit - by [RaananW](https://github.com |
+| [9.28.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.28.0) | 24/09/2026 | - Atmosphere: only attach the PBR material plugin to materials in the atmosphere's scene - by [incre |
 
 **npm latest:** `babylonjs@9.31.0` — 15/10/2026
 
