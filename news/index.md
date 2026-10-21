@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **02:02 21/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **08:23 21/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.31.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.31.2) | 21/10/2026 | - MSDF Text: guard fwidth() denominators in the fragment shaders - [_Bug Fix_] by [marns](https://gi |
 | [9.30.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.30.0) | 08/10/2026 | - MSDF Text: guard fwidth() denominators in the fragment shaders - [_Bug Fix_] by [marns](https://gi |
 | [9.29.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.29.0) | 01/10/2026 | - chore(deps): refresh supported versions and clear security audit - by [RaananW](https://github.com |
-| [9.28.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.28.0) | 24/09/2026 | - Atmosphere: only attach the PBR material plugin to materials in the atmosphere's scene - by [incre |
 
-**npm latest:** `babylonjs@9.31.1` — 21/10/2026
+**npm latest:** `babylonjs@9.31.2` — 21/10/2026
 
 ---
 
