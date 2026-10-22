@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **08:21 22/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **15:24 22/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.32.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.32.0) | 22/10/2026 | - Inspector Lite: add debug helpers and capture tools (P7b) - [_New Feature_] by [ryantrem](https:// |
 | [9.31.3](https://github.com/BabylonJS/Babylon.js/releases/tag/9.31.3) | 22/10/2026 | - NativeEngine rendering parity - by [bkaradzic-microsoft](https://github.com/bkaradzic-microsoft) ( |
 | [9.31.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.31.2) | 21/10/2026 | - MSDF Text: guard fwidth() denominators in the fragment shaders - [_Bug Fix_] by [marns](https://gi |
-| [9.30.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.30.0) | 08/10/2026 | - MSDF Text: guard fwidth() denominators in the fragment shaders - [_Bug Fix_] by [marns](https://gi |
 
-**npm latest:** `babylonjs@9.31.3` — 22/10/2026
+**npm latest:** `babylonjs@9.32.0` — 22/10/2026
 
 ---
 
