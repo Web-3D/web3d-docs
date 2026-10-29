@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **09:13 29/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **16:37 29/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.33.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.33.0) | 29/10/2026 | - Add render-pass command stream batching for native hosts - by [matthargett](https://github.com/mat |
 | [9.32.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.32.1) | 27/10/2026 | - Native parity fixes: shaders, compute, particles, codecs, clustered lights - [_Bug Fix_] by [bkara |
 | [9.32.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.32.0) | 22/10/2026 | - Inspector Lite: add debug helpers and capture tools (P7b) - [_New Feature_] by [ryantrem](https:// |
-| [9.31.3](https://github.com/BabylonJS/Babylon.js/releases/tag/9.31.3) | 22/10/2026 | - NativeEngine rendering parity - by [bkaradzic-microsoft](https://github.com/bkaradzic-microsoft) ( |
 
-**npm latest:** `babylonjs@9.32.1` — 27/10/2026
+**npm latest:** `babylonjs@9.33.0` — 29/10/2026
 
 ---
 
