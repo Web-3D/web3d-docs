@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **00:20 30/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **09:27 30/10/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -24,7 +24,7 @@
 | [9.32.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.32.1) | 27/10/2026 | - Native parity fixes: shaders, compute, particles, codecs, clustered lights - [_Bug Fix_] by [bkara |
 | [9.32.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.32.0) | 22/10/2026 | - Inspector Lite: add debug helpers and capture tools (P7b) - [_New Feature_] by [ryantrem](https:// |
 
-**npm latest:** `babylonjs@9.33.0` — 29/10/2026
+**npm latest:** `babylonjs@9.33.1` — 30/10/2026
 
 ---
 
