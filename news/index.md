@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **01:30 05/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **10:18 05/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.33.3](https://github.com/BabylonJS/Babylon.js/releases/tag/9.33.3) | 05/11/2026 | - Shader preprocessor: #if !X is #if !defined(X) - by [enriqxxx](https://github.com/enriqxxx) ([#190 |
 | [9.33.2](https://github.com/BabylonJS/Babylon.js/releases/tag/9.33.2) | 03/11/2026 | - WebGPU: convert half-float readbacks with Float16Array where it exists - by [enriqxxx](https://git |
 | [9.33.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.33.1) | 31/10/2026 | - Add KTX2 encoder (Basis Universal) - by [alexchuber](https://github.com/alexchuber) ([#19011](http |
-| [9.33.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.33.0) | 29/10/2026 | - Add render-pass command stream batching for native hosts - by [matthargett](https://github.com/mat |
 
-**npm latest:** `babylonjs@9.33.2` — 03/11/2026
+**npm latest:** `babylonjs@9.33.3` — 05/11/2026
 
 ---
 
