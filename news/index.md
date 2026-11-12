@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **10:40 12/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **20:35 12/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.36.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.36.0) | 12/11/2026 | - Native: only filter depth textures that use a comparison function - [_Bug Fix_] by [bkaradzic-micr |
 | [9.35.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.35.0) | 07/11/2026 | - Fix WebGL effect samplers being dropped when compiled during context loss - by [serdarucel](https: |
 | [9.34.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.34.0) | 05/11/2026 | - WebGPU: find cached texture views without building a key string - by [enriqxxx](https://github.com |
-| [9.33.3](https://github.com/BabylonJS/Babylon.js/releases/tag/9.33.3) | 05/11/2026 | - Shader preprocessor: #if !X is #if !defined(X) - by [enriqxxx](https://github.com/enriqxxx) ([#190 |
 
-**npm latest:** `babylonjs@9.35.0` — 07/11/2026
+**npm latest:** `babylonjs@9.36.0` — 12/11/2026
 
 ---
 
