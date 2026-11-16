@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **00:36 16/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **09:37 16/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -10,8 +10,9 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
-_Không lấy được dữ liệu._
-
+| [r187](https://github.com/mrdoob/three.js/releases/tag/r187) | 30/10/2026 | - Global |
+| [r186](https://github.com/mrdoob/three.js/releases/tag/r186) | 24/09/2026 | - Global |
+| [r185](https://github.com/mrdoob/three.js/releases/tag/r185) | 02/07/2026 | - Global |
 
 **npm latest:** `three@0.187.0` — 30/10/2026
 
@@ -19,8 +20,9 @@ _Không lấy được dữ liệu._
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
-_Không lấy được dữ liệu._
-
+| [9.36.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.36.0) | 12/11/2026 | - Native: only filter depth textures that use a comparison function - [_Bug Fix_] by [bkaradzic-micr |
+| [9.35.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.35.0) | 07/11/2026 | - Fix WebGL effect samplers being dropped when compiled during context loss - by [serdarucel](https: |
+| [9.34.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.34.0) | 05/11/2026 | - WebGPU: find cached texture views without building a key string - by [enriqxxx](https://github.com |
 
 **npm latest:** `babylonjs@9.36.0` — 12/11/2026
 
