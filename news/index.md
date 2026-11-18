@@ -1,6 +1,6 @@
 # 📰 Web-3D News
 
-> Cập nhật tự động lúc **11:03 18/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
+> Cập nhật tự động lúc **20:42 18/11/2026** (UTC+7) · [Nguồn dữ liệu](#nguon-du-lieu)
 
 ---
 
@@ -20,11 +20,11 @@
 
 | Phiên bản | Ngày | Ghi chú |
 |---|---|---|
+| [9.37.1](https://github.com/BabylonJS/Babylon.js/releases/tag/9.37.1) | 18/11/2026 | - Deliver callbacks to every caller of a cached compute effect - by [mmporong](https://github.com/mm |
 | [9.37.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.37.0) | 17/11/2026 | - Decode base64 data URLs as UTF-8 when loading text - by [SwastikTripathi](https://github.com/Swast |
 | [9.36.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.36.0) | 12/11/2026 | - Native: only filter depth textures that use a comparison function - [_Bug Fix_] by [bkaradzic-micr |
-| [9.35.0](https://github.com/BabylonJS/Babylon.js/releases/tag/9.35.0) | 07/11/2026 | - Fix WebGL effect samplers being dropped when compiled during context loss - by [serdarucel](https: |
 
-**npm latest:** `babylonjs@9.37.0` — 16/11/2026
+**npm latest:** `babylonjs@9.37.1` — 18/11/2026
 
 ---
 
